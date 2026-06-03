@@ -4,17 +4,27 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Contact - GENTLEMEN PARLOR</title>
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="css/notifications.css" />
 </head>
 <body>
+    <div id="loadingSpinner" class="loading-overlay hidden">
+        <div class="spinner"></div>
+    </div>
     <header>
         <div class="container">
-            <h1>GENTLEMEN PARLOR</h1>
+            <div class="brand">
+                <div class="logo-container">
+                    <img src="images/Gentlemen Parlor Logo copy.png" alt="Gentlemen Parlor Logo" />
+                </div>
+                <h1>GENTLEMEN PARLOR</h1>
+            </div>
             <nav>
                 <ul>
                     <li><a href="index.html">Home</a></li>
                     <li><a href="about.html">About</a></li>
                     <li><a href="contact.html" class="active">Contact</a></li>
+                    <li><a href="user.html" data-account-link>Account</a></li>
                 </ul>
             </nav>
         </div>
@@ -22,26 +32,270 @@
 
     <section class="contact">
         <div class="container">
-            <h2>Get In Touch</h2>
-            <p>We’d love to hear from you. Send us a message below.</p>
+            <h2 class="reveal">Get In Touch</h2>
+            <p class="reveal">We'd love to hear from you. Send us a message below or reach out through our other channels.</p>
 
-            <form>
-                <label>Name</label>
-                <input type="text" placeholder="Your Name" required>
+            <div class="contact-content">
+                <div class="contact-info reveal">
+                    <h3>Contact Information</h3>
+                    <div class="contact-item">
+                        <div class="contact-icon">📍</div>
+                        <div class="contact-details">
+                            <h4>Address</h4>
+                            <p>Pillar 2 Avenue ST.<br>Haatso, Accra</p>
+                            <p>Mile 50.<br>Koforidua, Eastern Region</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">📞</div>
+                        <div class="contact-details">
+                            <h4>Phone</h4>
+                            <p>+233 55 493 9672</p>
+                            <p>+233 53 696 1467</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">✉️</div>
+                        <div class="contact-details">
+                            <h4>Email</h4>
+                            <p>info@gentlemenparlor.com</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">🕒</div>
+                        <div class="contact-details">
+                            <h4>Business Hours</h4>
+                            <p>Monday - Friday : 9:00 AM - 7:00 PM<br>
+                            
+                               </p>
+                        </div>
+                    </div>
+                </div>
 
-                <label>Email</label>
-                <input type="email" placeholder="you@example.com" required>
+                <form class="contact-form reveal" id="contactForm">
+                    <div class="form-group">
+                        <label for="name">Full Name *</label>
+                        <input type="text" id="name" name="name" placeholder="Your Full Name" required>
+                        <span class="error-message" id="nameError"></span>
+                    </div>
 
-                <label>Message</label>
-                <textarea rows="5" placeholder="Your message..." required></textarea>
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" placeholder="you@example.com" required>
+                        <span class="error-message" id="emailError"></span>
+                    </div>
 
-                <button type="submit" class="btn">Send Message</button>
-            </form>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" placeholder="+1 (555) 123-4567">
+                        <span class="error-message" id="phoneError"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject">Subject *</label>
+                        <select id="subject" name="subject" required>
+                            <option value="">Select a subject</option>
+                            <option value="general">General Inquiry</option>
+                            <option value="order">Order Support</option>
+                            <option value="returns">Returns & Exchanges</option>
+                            <option value="sizing">Sizing Questions</option>
+                            <option value="custom">Custom Orders</option>
+                            <option value="other">Other</option>
+                        </select>
+                        <span class="error-message" id="subjectError"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Message *</label>
+                        <textarea id="message" name="message" rows="6" placeholder="Tell us how we can help you..." required></textarea>
+                        <span class="error-message" id="messageError"></span>
+                    </div>
+
+                    <div class="form-group checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="newsletter" name="newsletter">
+                            <span class="checkmark"></span>
+                            Subscribe to our newsletter for exclusive offers and style tips
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn submit-btn">
+                        <span class="btn-text">Send Message</span>
+                        <span class="btn-loading">Sending...</span>
+                    </button>
+                </form>
+            </div>
         </div>
     </section>
 
     <footer>
         <p>&copy; 2025 GENTLEMEN PARLOR. All rights reserved.</p>
     </footer>
+
+    <script src="js/utilities.js"></script>
+    <script src="js/toast.js"></script>
+    <script src="js/apiService.js"></script>
+    <script src="js/navUser.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Reveal animations
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('reveal-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+            // Form validation and submission
+            const contactForm = document.getElementById('contactForm');
+            const submitBtn = contactForm.querySelector('.submit-btn');
+            const btnText = submitBtn.querySelector('.btn-text');
+            const btnLoading = submitBtn.querySelector('.btn-loading');
+
+            // Real-time validation
+            const inputs = contactForm.querySelectorAll('input, select, textarea');
+            inputs.forEach(input => {
+                input.addEventListener('blur', () => validateField(input));
+                input.addEventListener('input', () => clearError(input));
+            });
+
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                if (validateForm()) {
+                    submitForm();
+                }
+            });
+
+            function validateForm() {
+                let isValid = true;
+                const requiredFields = contactForm.querySelectorAll('[required]');
+                
+                requiredFields.forEach(field => {
+                    if (!validateField(field)) {
+                        isValid = false;
+                    }
+                });
+
+                return isValid;
+            }
+
+            function validateField(field) {
+                const value = field.value.trim();
+                const fieldName = field.name;
+                const errorElement = document.getElementById(fieldName + 'Error');
+                
+                let isValid = true;
+                let errorMessage = '';
+
+                // Required field validation
+                if (field.hasAttribute('required') && !value) {
+                    isValid = false;
+                    errorMessage = `${getFieldLabel(fieldName)} is required`;
+                }
+                // Email validation
+                else if (field.type === 'email' && value) {
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailRegex.test(value)) {
+                        isValid = false;
+                        errorMessage = 'Please enter a valid email address';
+                    }
+                }
+                // Phone validation
+                else if (field.type === 'tel' && value) {
+                    const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
+                    if (!phoneRegex.test(value.replace(/[\s\-\(\)]/g, ''))) {
+                        isValid = false;
+                        errorMessage = 'Please enter a valid phone number';
+                    }
+                }
+                // Message length validation
+                else if (field.tagName === 'TEXTAREA' && value && value.length < 10) {
+                    isValid = false;
+                    errorMessage = 'Message must be at least 10 characters long';
+                }
+
+                // Display error
+                if (!isValid) {
+                    field.classList.add('error');
+                    errorElement.textContent = errorMessage;
+                } else {
+                    field.classList.remove('error');
+                    errorElement.textContent = '';
+                }
+
+                return isValid;
+            }
+
+            function clearError(field) {
+                field.classList.remove('error');
+                const errorElement = document.getElementById(field.name + 'Error');
+                if (errorElement) {
+                    errorElement.textContent = '';
+                }
+            }
+
+            function getFieldLabel(fieldName) {
+                const labels = {
+                    'name': 'Full Name',
+                    'email': 'Email Address',
+                    'phone': 'Phone Number',
+                    'subject': 'Subject',
+                    'message': 'Message'
+                };
+                return labels[fieldName] || fieldName;
+            }
+
+            async function submitForm() {
+                submitBtn.disabled = true;
+                btnText.style.display = 'none';
+                btnLoading.style.display = 'inline';
+
+                const contactData = {
+                    name: contactForm.querySelector('#name').value.trim(),
+                    email: contactForm.querySelector('#email').value.trim(),
+                    phone: contactForm.querySelector('#phone').value.trim(),
+                    subject: contactForm.querySelector('#subject').value,
+                    message: contactForm.querySelector('#message').value.trim(),
+                    newsletter: contactForm.querySelector('#newsletter') ? contactForm.querySelector('#newsletter').checked : false,
+                };
+
+                try {
+                    const response = await apiService.submitContact(contactData);
+                    contactForm.reset();
+                    toast.success('Thank you! Your message has been sent successfully. We\'ll get back to you soon.');
+                } catch (error) {
+                    console.error('Contact submission error:', error);
+                    toast.error(errorHandler ? errorHandler.getErrorMessage(error) : 'Error sending message. Please try again later.');
+                } finally {
+                    submitBtn.disabled = false;
+                    btnText.style.display = 'inline';
+                    btnLoading.style.display = 'none';
+                }
+            }
+
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(a => {
+                a.addEventListener('click', (e) => {
+                    const href = a.getAttribute('href');
+                    if (href.length > 1) {
+                        e.preventDefault();
+                        const target = document.querySelector(href);
+                        if (target) {
+                            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+    <script src="js/smoothNavigation.js"></script>
 </body>
 </html>

@@ -4,17 +4,27 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GENTLEMEN PARLOR</title>
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="css/notifications.css" />
 </head>
 <body>
+    <div id="loadingSpinner" class="loading-overlay hidden">
+        <div class="spinner"></div>
+    </div>
     <header>
         <div class="container">
-            <h1>GENTLEMEN PARLOR</h1>
+            <div class="brand">
+                <div class="logo-container">
+                    <img src="images/Gentlemen Parlor Logo copy.png" alt="Gentlemen Parlor Logo" />
+                </div>
+                <h1>GENTLEMEN PARLOR</h1>
+            </div>
             <nav>
                 <ul>
                     <li><a href="index.html" class="active">Home</a></li>
                     <li><a href="about.html">About</a></li>
                     <li><a href="contact.html">Contact</a></li>
+                    <li><a href="user.html" data-account-link>Account</a></li>
                 </ul>
             </nav>
         </div>
@@ -29,55 +39,497 @@
     </section>
 
     <section id="collection" class="collection">
-        <h2>OUR COLLECTION</h2>
-        <div class="products">
-            <div class="product-card">
-                <img src="C:\Users\Nicho\Pictures\Suits/il_fullxfull.6122279629_cwkl.jpg" alt="CLASSIC SUIT" />
-                <h3>CLASSIC SUIT</h3>
-                <p>Timeless design for formal occasions.</p>
-                <span>$199.99</span>
+        <h2 class="reveal">OUR COLLECTION</h2>
+        <p class="collection-intro reveal">Discover our carefully curated selection of premium menswear, designed for the modern gentleman who values quality, style, and sophistication.</p>
+
+        <!-- Formal Wear Section -->
+        <div class="collection-section">
+            <h3 class="section-title reveal">FORMAL WEAR</h3>
+            <p class="section-description reveal">Elegant suits and tuxedos for special occasions and formal events</p>
+            <div class="products">
+                <div class="product-card reveal" data-product-id="prod-001" data-product-sku="SUIT-001">
+                    <div class="card-media">
+                        <img class="active" src="images/Suits/il_570xN.6308846995_kaka.jpg" alt="CLASSIC SUIT" />
+                    </div>
+                    <div class="card-body">
+                        <h3>CLASSIC SUIT</h3>
+                        <p>Timeless design for formal occasions.</p>
+                        <span>$199.99</span>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+
+                <div class="product-card reveal" data-product-id="prod-002" data-product-sku="TUX-001">
+                    <div class="card-media">
+                        <img class="active" src="images/Suits/Marlow-3-Piece-Burgundy-Tuxedo-1.jpg" alt="BURGUNDY TUXEDO" />
+                    </div>
+                    <div class="card-body">
+                        <h3>BURGUNDY TUXEDO</h3>
+                        <p>Elegant 3-piece tuxedo for special events.</p>
+                        <span>$349.99</span>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+
+                <div class="product-card reveal" data-product-id="prod-003" data-product-sku="TUX-002">
+                    <div class="card-media">
+                        <img class="active" src="images/Suits/Mayfair-3-piece-blue-tuxedo-1.jpg" alt="NAVY TUXEDO" />
+                    </div>
+                    <div class="card-body">
+                        <h3>NAVY TUXEDO</h3>
+                        <p>Sophisticated 3-piece navy tuxedo.</p>
+                        <span>$329.99</span>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+
+                <div class="product-card reveal" data-product-id="prod-004" data-product-sku="SUIT-002">
+                    <div class="card-media">
+                        <img class="active" src="images/Suits/Gloucester-Black-3-Piece-Suit-21.jpg" alt="BLACK FORMAL SUIT" />
+                    </div>
+                    <div class="card-body">
+                        <h3>BLACK FORMAL SUIT</h3>
+                        <p>Premium black 3-piece formal suit.</p>
+                        <span>$279.99</span>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+
+                <div class="product-card reveal" data-product-id="prod-005" data-product-sku="SUIT-003">
+                    <div class="card-media">
+                        <img class="active" src="images/Suits/Henley-3-Piece-Navy-Tuxedo-11.jpg" alt="HENLEY NAVY SUIT" />
+                    </div>
+                    <div class="card-body">
+                        <h3>HENLEY NAVY SUIT</h3>
+                        <p>Classic navy 3-piece tuxedo collection.</p>
+                        <span>$299.99</span>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
             </div>
-            <div class="product-card">
-                <img src="images/shoes.jpg" alt="LEATHER SHOES" />
-                <h3>LEATHER SHOES</h3>
-                <p>Handcrafted comfort and durability.</p>
-                <span>$89.99</span>
+        </div>
+
+        <!-- Business Wear Section -->
+        <div class="collection-section">
+            <h3 class="section-title reveal">BUSINESS WEAR</h3>
+            <p class="section-description reveal">Professional attire for the modern workplace and business meetings</p>
+            <div class="products">
+                <div class="product-card reveal" data-product-id="prod-006" data-product-sku="BUS-001">
+                    <div class="card-media">
+                        <img class="active" src="images/Suits/il_570xN.6046629125_ihy2.jpg" alt="BUSINESS SUIT" />
+                    </div>
+                    <div class="card-body">
+                        <h3>BUSINESS SUIT</h3>
+                        <p>Professional business attire for the office.</p>
+                        <span>$189.99</span>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+
+                <div class="product-card reveal" data-product-id="prod-007" data-product-sku="BUS-002">
+                    <div class="card-media">
+                        <img class="active" src="images/Suits/il_570xN.6187509300_1hul.jpg" alt="SLIM FIT SUIT" />
+                    </div>
+                    <div class="card-body">
+                        <h3>SLIM FIT SUIT</h3>
+                        <p>Modern slim fit design for contemporary style.</p>
+                        <span>$229.99</span>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+
+                <div class="product-card reveal" data-product-id="prod-008" data-product-sku="BUS-003">
+                    <div class="card-media">
+                        <img class="active" src="images/Shirts/160782b3-ba62-4645-b3de-df1e1a473450.5b4ae920e41208ab04033fe6f6aa3eff.png" alt="DRESS SHIRT" />
+                    </div>
+                    <div class="card-body">
+                        <h3>DRESS SHIRT</h3>
+                        <p>Smart shirts for work and evening events.</p>
+                        <span>$59.99</span>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+
+                <div class="product-card reveal" data-product-id="prod-009" data-product-sku="BUS-004">
+                    <div class="card-media">
+                        <img class="active" src="images/Trousers/22850263_52942900_600.jpg" alt="FORMAL TROUSERS" />
+                    </div>
+                    <div class="card-body">
+                        <h3>FORMAL TROUSERS</h3>
+                        <p>Classic formal trousers for professional settings.</p>
+                        <span>$89.99</span>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+
+                <div class="product-card reveal" data-product-id="prod-010" data-product-sku="BUS-005">
+                    <div class="card-media">
+                        <img class="active" src="images/Trousers/24388192_54714743_600.jpg" alt="BUSINESS TROUSERS" />
+                    </div>
+                    <div class="card-body">
+                        <h3>BUSINESS TROUSERS</h3>
+                        <p>Professional trousers for office and meetings.</p>
+                        <span>$79.99</span>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+
+                <div class="product-card reveal" data-product-id="prod-011" data-product-sku="BUS-006">
+                    <div class="card-media">
+                        <img class="active" src="images/Trousers/26519956_57581875_600.jpg" alt="OFFICE PANTS" />
+                    </div>
+                    <div class="card-body">
+                        <h3>OFFICE PANTS</h3>
+                        <p>Comfortable pants designed for office wear.</p>
+                        <span>$69.99</span>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+
+                <div class="product-card reveal" data-product-id="prod-012" data-product-sku="BUS-007">
+                    <div class="card-media">
+                        <img class="active" src="images/Trousers/ALL0107_1_1e9e01a8-675e-421e-9f36-b0dda53964b8.jpg" alt="SLIM FIT TROUSERS" />
+                    </div>
+                    <div class="card-body">
+                        <h3>SLIM FIT TROUSERS</h3>
+                        <p>Modern slim fit trousers for contemporary professionals.</p>
+                        <span>$94.99</span>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+
+                <div class="product-card reveal" data-product-id="prod-013" data-product-sku="BUS-008">
+                    <div class="card-media">
+                        <img class="active" src="images/Trousers/LA1809_1_67a64449-4b70-4bff-89a7-bb9ee30c1efd.jpg" alt="EXECUTIVE PANTS" />
+                    </div>
+                    <div class="card-body">
+                        <h3>EXECUTIVE PANTS</h3>
+                        <p>Premium trousers for executive and leadership roles.</p>
+                        <span>$119.99</span>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+
+                <div class="product-card reveal" data-product-id="prod-014" data-product-sku="BUS-009">
+                    <div class="card-media">
+                        <img class="active" src="images/Trousers/WILL0103_1_9fd40a8c-ab16-4903-845a-389df51cbfe3.jpg" alt="PROFESSIONAL PANTS" />
+                    </div>
+                    <div class="card-body">
+                        <h3>PROFESSIONAL PANTS</h3>
+                        <p>High-quality pants for professional environments.</p>
+                        <span>$99.99</span>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
             </div>
-            <div class="product-card">
-                <img src="images/watch.jpg" alt="LUXURY WATCH" />
-                <h3>LUXURY WATCH</h3>
-                <p>Elegance that defines your time.</p>
-                <span>$249.99</span>
+        </div>
+
+        <!-- Footwear Section -->
+        <div class="collection-section">
+            <h3 class="section-title reveal">FOOTWEAR</h3>
+            <p class="section-description reveal">Premium shoes and boots crafted for comfort, style, and durability</p>
+            <div class="products">
+                <div class="product-card reveal" data-product-id="prod-015" data-product-sku="SHOE-001">
+                    <div class="card-media">
+                        <img class="active" src="images/Shoes/photo_2023-08-10_01-10-17.jpg" alt="LEATHER SHOES" />
+                    </div>
+                    <div class="card-body">
+                        <h3>LEATHER SHOES</h3>
+                        <p>Handcrafted comfort and durability.</p>
+                        <span>$89.99</span>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+
+                <div class="product-card reveal" data-product-id="prod-016" data-product-sku="SHOE-002">
+                    <div class="card-media">
+                        <img class="active" src="images/Shoes/1255523-12130289_fullsize.png" alt="SNEAKERS" />
+                    </div>
+                    <div class="card-body">
+                        <h3>SNEAKERS</h3>
+                        <p>Comfortable and stylish casual footwear.</p>
+                        <span>$79.99</span>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+
+                <div class="product-card reveal" data-product-id="prod-017" data-product-sku="SHOE-003">
+                    <div class="card-media">
+                        <img class="active" src="images/Shoes/nike-air-force-1-07.jpg" alt="AIR FORCE 1" />
+                    </div>
+                    <div class="card-body">
+                        <h3>AIR FORCE 1</h3>
+                        <p>Classic Nike sneakers for everyday style.</p>
+                        <span>$99.99</span>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+
+                <div class="product-card reveal" data-product-id="prod-018" data-product-sku="SHOE-004">
+                    <div class="card-media">
+                        <img class="active" src="images/Shoes/air-jordan-3-retro-og-white-cement-grey-blue.png" alt="AIR JORDAN 3" />
+                    </div>
+                    <div class="card-body">
+                        <h3>AIR JORDAN 3</h3>
+                        <p>Iconic basketball sneakers with retro style.</p>
+                        <span>$149.99</span>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+
+                <div class="product-card reveal" data-product-id="prod-019" data-product-sku="SHOE-005">
+                    <div class="card-media">
+                        <img class="active" src="images/Shoes/Classic-SlipOn-Shoe.png" alt="SLIP-ON SHOES" />
+                    </div>
+                    <div class="card-body">
+                        <h3>SLIP-ON SHOES</h3>
+                        <p>Convenient and comfortable casual footwear.</p>
+                        <span>$69.99</span>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+
+                <div class="product-card reveal" data-product-id="prod-020" data-product-sku="SHOE-006">
+                    <div class="card-media">
+                        <img class="active" src="images/Shoes/converse-chuck-taylor-all-star-move.jpg" alt="CHUCK TAYLOR" />
+                    </div>
+                    <div class="card-body">
+                        <h3>CHUCK TAYLOR</h3>
+                        <p>Timeless Converse sneakers for casual wear.</p>
+                        <span>$65.99</span>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+
+                <div class="product-card reveal" data-product-id="prod-021" data-product-sku="SHOE-007">
+                    <div class="card-media">
+                        <img class="active" src="images/Shoes/photo_2023-08-10_01-09-29.jpg" alt="FORMAL DRESS SHOES" />
+                    </div>
+                    <div class="card-body">
+                        <h3>FORMAL DRESS SHOES</h3>
+                        <p>Elegant dress shoes for formal occasions.</p>
+                        <span>$119.99</span>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+
+                <div class="product-card reveal" data-product-id="prod-022" data-product-sku="SHOE-008">
+                    <div class="card-media">
+                        <img class="active" src="images/Shoes/BirkenstockLadiesClogs-Boston-LatteCream_6.png" alt="CASUAL CLOGS" />
+                    </div>
+                    <div class="card-body">
+                        <h3>CASUAL CLOGS</h3>
+                        <p>Comfortable clogs for relaxed style.</p>
+                        <span>$89.99</span>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+
+                <div class="product-card reveal" data-product-id="prod-023" data-product-sku="SHOE-009">
+                    <div class="card-media">
+                        <img class="active" src="images/Shoes/photo_2023-08-10_01-09-33.jpg" alt="BOOT STYLE SHOES" />
+                    </div>
+                    <div class="card-body">
+                        <h3>BOOT STYLE SHOES</h3>
+                        <p>Stylish boots for versatile wear.</p>
+                        <span>$109.99</span>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
             </div>
-            <div class="product-card">
-                <img src="images/watch.jpg" alt="JEANS" />
-                <h3>JEANS</h3>
-                <p>Elegance that defines your time.</p>
-                <span>$249.99</span>
+        </div>
+
+        <!-- Accessories Section -->
+        <div class="collection-section">
+            <h3 class="section-title reveal">ACCESSORIES</h3>
+            <p class="section-description reveal">Essential accessories to complete your sophisticated look</p>
+            <div class="products">
+                <div class="product-card reveal" data-product-id="prod-024" data-product-sku="ACC-001">
+                    <div class="card-media">
+                        <img class="active" src="images/Watches/642aa45523af200eea0b32f7-men-039-s-watches-waterproof-luminous.jpg" alt="LUXURY WATCH" />
+                    </div>
+                    <div class="card-body">
+                        <h3>LUXURY WATCH</h3>
+                        <p>Elegance that defines your time.</p>
+                        <span>$249.99</span>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+
+                <div class="product-card reveal" data-product-id="prod-025" data-product-sku="ACC-003">
+                    <div class="card-media">
+                        <img class="active" src="images/Watches/b780c84f88b80056092b2ac4b82bb31c.jpg" alt="CLASSIC TIMEPIECE" />
+                    </div>
+                    <div class="card-body">
+                        <h3>CLASSIC TIMEPIECE</h3>
+                        <p>Timeless design meets modern precision.</p>
+                        <span>$189.99</span>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+
+                <div class="product-card reveal" data-product-id="prod-026" data-product-sku="ACC-004">
+                    <div class="card-media">
+                        <img class="active" src="images/Watches/JHSTEEL-ProductCarousel-Leather-01.webp" alt="LEATHER STRAP WATCH" />
+                    </div>
+                    <div class="card-body">
+                        <h3>LEATHER STRAP WATCH</h3>
+                        <p>Sophisticated style with premium leather band.</p>
+                        <span>$159.99</span>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+
+                <div class="product-card reveal" data-product-id="prod-027" data-product-sku="ACC-002">
+                    <div class="card-media">
+                        <img class="active" src="images/Belts/65376a1fe1c283476a2a6280-chaoren-leather-reversible-belt-for-men.jpg" alt="LEATHER BELT" />
+                    </div>
+                    <div class="card-body">
+                        <h3>LEATHER BELT</h3>
+                        <p>Durable belts with elegant buckles.</p>
+                        <span>$39.99</span>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+
+                <div class="product-card reveal" data-product-id="prod-028" data-product-sku="ACC-005">
+                    <div class="card-media">
+                        <img class="active" src="images/Bags/Jefferson_Leather_Duffle_2v_900x900_crop_center.jpg" alt="LEATHER BAG" />
+                    </div>
+                    <div class="card-body">
+                        <h3>LEATHER BAG</h3>
+                        <p>Premium leather bags for everyday use.</p>
+                        <span>$129.99</span>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
             </div>
-            <div class="product-card">
-                <img src="images/watch.jpg" alt="BAGS" />
-                <h3>BAGS</h3>
-                <p>Elegance that defines your time.</p>
-                <span>$249.99</span>
-            </div>
-            <div class="product-card">
-                <img src="images/watch.jpg" alt="BELTS" />
-                <h3>BELTS</h3>
-                <p>Elegance that defines your time.</p>
-                <span>$249.99</span>
-            </div>
-            <div class="product-card">
-                <img src="images/watch.jpg" alt="SHORTS" />
-                <h3>SHORTS</h3>
-                <p>Elegance that defines your time.</p>
-                <span>$249.99</span>
-            </div>
-            <div class="product-card">
-                <img src="images/watch.jpg" alt="SHIRTS" />
-                <h3>SHIRTS</h3>
-                <p>Elegance that defines your time.</p>
-                <span>$249.99</span>
+        </div>
+
+        <!-- Casual Wear Section -->
+        <div class="collection-section">
+            <h3 class="section-title reveal">CASUAL WEAR</h3>
+            <p class="section-description reveal">Relaxed yet refined clothing for everyday comfort and style</p>
+            <div class="products">
+                <div class="product-card reveal" data-product-sku="CASUAL-001">
+                    <div class="card-media">
+                        <img class="active" src="images/Jeans/image_bf537762-0985-4eaf-8daf-175eebd63f87.png" alt="PREMIUM JEANS" />
+                    </div>
+                    <div class="card-body">
+                        <h3>PREMIUM JEANS</h3>
+                        <p>Casual style with a refined finish.</p>
+                        <span>$79.99</span>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+
+                <div class="product-card reveal" data-product-sku="CASUAL-002">
+                    <div class="card-media">
+                        <img class="active" src="images/Shorts/S56eb0b1efd79459fb336e1858e0adbdfY.jpg" alt="CASUAL SHORTS" />
+                    </div>
+                    <div class="card-body">
+                        <h3>CASUAL SHORTS</h3>
+                        <p>Comfortable and stylish warm-weather wear.</p>
+                        <span>$49.99</span>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+
+                <div class="product-card reveal" data-product-sku="CASUAL-003">
+                    <div class="card-media">
+                        <img class="active" src="images/Joggers/KIC_334-5086-00128-900_prod1.png" alt="PREMIUM JOGGERS" />
+                    </div>
+                    <div class="card-body">
+                        <h3>PREMIUM JOGGERS</h3>
+                        <p>Comfortable and stylish athletic wear.</p>
+                        <span>$59.99</span>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+
+                <div class="product-card reveal" data-product-sku="CASUAL-004">
+                    <div class="card-media">
+                        <img class="active" src="images/SidePockets/O415287T_840_1_1080x.jpg" alt="SIDE POCKETS" />
+                    </div>
+                    <div class="card-body">
+                        <h3>SIDE POCKETS</h3>
+                        <p>Functional and stylish side pocket designs.</p>
+                        <span>$39.99</span>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+
+                <div class="product-card reveal" data-product-sku="CASUAL-005">
+                    <div class="card-media">
+                        <img class="active" src="images/Socks/SD_03_T10_1251C_ZZ_X_EC_0.jpg" alt="PREMIUM SOCKS" />
+                    </div>
+                    <div class="card-body">
+                        <h3>PREMIUM SOCKS</h3>
+                        <p>Comfortable and durable everyday socks.</p>
+                        <span>$19.99</span>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+
+                <div class="product-card reveal" data-product-sku="CASUAL-006">
+                    <div class="card-media">
+                        <img class="active" src="images/SidePockets/men-cargo-pant-500x500.jpg" alt="CARGO PANTS" />
+                    </div>
+                    <div class="card-body">
+                        <h3>CARGO PANTS</h3>
+                        <p>Utility pants with multiple pockets for functionality.</p>
+                        <span>$69.99</span>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+
+                <div class="product-card reveal" data-product-sku="CASUAL-007">
+                    <div class="card-media">
+                        <img class="active" src="images/SidePockets/4790-85S-627-13-Front-Pockets-Baggy-Cargo-Pants6_68ff7b70-03ca-4d3e-901a-3f9058816782.jpg" alt="BAGGY CARGO PANTS" />
+                    </div>
+                    <div class="card-body">
+                        <h3>BAGGY CARGO PANTS</h3>
+                        <p>Relaxed fit cargo pants with front pockets.</p>
+                        <span>$74.99</span>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+
+                <div class="product-card reveal" data-product-sku="CASUAL-008">
+                    <div class="card-media">
+                        <img class="active" src="images/SidePockets/P115284_840_1_740x.jpg" alt="UTILITY PANTS" />
+                    </div>
+                    <div class="card-body">
+                        <h3>UTILITY PANTS</h3>
+                        <p>Versatile pants designed for everyday activities.</p>
+                        <span>$64.99</span>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+
+                <div class="product-card reveal" data-product-sku="CASUAL-009">
+                    <div class="card-media">
+                        <img class="active" src="images/SidePockets/61LbbOemKBL._SS1000_.jpg" alt="TACTICAL PANTS" />
+                    </div>
+                    <div class="card-body">
+                        <h3>TACTICAL PANTS</h3>
+                        <p>Durable tactical pants for outdoor adventures.</p>
+                        <span>$89.99</span>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+
+                <div class="product-card reveal" data-product-sku="CASUAL-010">
+                    <div class="card-media">
+                        <img class="active" src="images/SidePockets/rubber-cloth-500x500.jpg" alt="RUBBER CLOTH PANTS" />
+                    </div>
+                    <div class="card-body">
+                        <h3>RUBBER CLOTH PANTS</h3>
+                        <p>Water-resistant pants for outdoor activities.</p>
+                        <span>$79.99</span>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
             </div>
         </div>
     </section>
@@ -85,5 +537,108 @@
     <footer>
         <p>&copy; 2025 GENTLEMEN PARLOR. All rights reserved.</p>
     </footer>
+
+    <script src="js/utilities.js"></script>
+    <script src="js/toast.js"></script>
+    <script src="js/apiService.js"></script>
+    <script src="js/navUser.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Carousel: cycles images inside .card-media elements
+            document.querySelectorAll('.card-media').forEach(function(media) {
+                const imgs = Array.from(media.querySelectorAll('img'));
+                if (imgs.length <= 1) return; // nothing to rotate
+
+                let index = 0;
+                imgs.forEach((img, i) => img.classList.toggle('active', i === 0));
+
+                let interval = setInterval(next, 3000);
+
+                function next() {
+                    imgs[index].classList.remove('active');
+                    index = (index + 1) % imgs.length;
+                    imgs[index].classList.add('active');
+                }
+
+                media.addEventListener('mouseenter', () => clearInterval(interval));
+                media.addEventListener('mouseleave', () => interval = setInterval(next, 3000));
+            });
+
+            // Header shrink on scroll
+            const header = document.querySelector('header');
+            const shrinkThreshold = 80;
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > shrinkThreshold) header.classList.add('header--small');
+                else header.classList.remove('header--small');
+            }, { passive: true });
+
+            // Reveal on scroll using IntersectionObserver
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('reveal-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.12 });
+
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+            // Smooth anchor scrolling for internal links
+            document.querySelectorAll('a[href^="#"]').forEach(a => {
+                a.addEventListener('click', (e) => {
+                    const href = a.getAttribute('href');
+                    if (href.length > 1) {
+                        e.preventDefault();
+                        const target = document.querySelector(href);
+                        if (target) {
+                            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    }
+                });
+            });
+
+            // Add to Cart button handlers
+            document.querySelectorAll('.add-to-cart').forEach(button => {
+                button.addEventListener('click', async (e) => {
+                    e.preventDefault();
+                    
+                    const productCard = button.closest('.product-card');
+                    const productName = productCard.querySelector('h3').textContent;
+                    const productSku = productCard.dataset.productSku;
+                    
+                    // Show loading state
+                    const originalText = button.textContent;
+                    button.textContent = 'Adding...';
+                    button.disabled = true;
+
+                    try {
+                        await apiService.addToCart({
+                            productSku: productSku || undefined,
+                            productName: productName,
+                        }, 1);
+                        
+                        button.textContent = 'Added to Cart ✓';
+                        button.textContent = 'Added to Cart';
+                        setTimeout(() => {
+                            button.textContent = originalText;
+                            button.disabled = false;
+                        }, 2000);
+                    } catch (error) {
+                        const message = errorHandler ? errorHandler.getErrorMessage(error) : (error.message || 'Failed to add item to cart. Please try again.');
+                        console.error('Error adding to cart:', error);
+                        if (error.message === 'Unauthorized' || error.message === 'No token provided' || error.message === 'Invalid token') {
+                            window.location.href = 'login.html';
+                            return;
+                        }
+                        toast.error(message);
+                        button.textContent = originalText;
+                        button.disabled = false;
+                    }
+                });
+            });
+        });
+    </script>
+    <script src="js/smoothNavigation.js"></script>
 </body>
 </html>

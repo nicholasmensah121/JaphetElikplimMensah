@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Account - GENTLEMEN PARLOR</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="css/notifications.css" />
+    <style>
+        .register-container {
+            min-height: calc(100vh - 200px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
+        }
+
+        .register-wrapper {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .register-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .register-header h1 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .register-header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #8B7355;
+            box-shadow: 0 0 0 3px rgba(139, 115, 85, 0.1);
+        }
+
+        .form-group input::placeholder {
+            color: #999;
+        }
+
+        .password-requirements {
+            background: #f0f0f0;
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .password-requirements ul {
+            margin: 8px 0 0 20px;
+            padding: 0;
+            list-style: disc;
+        }
+
+        .password-requirements li {
+            margin: 5px 0;
+        }
+
+        .requirement {
+            color: #dc3545;
+            display: flex;
+            align-items: center;
+            margin: 5px 0;
+        }
+
+        .requirement.met {
+            color: #28a745;
+        }
+
+        .requirement-icon {
+            margin-right: 8px;
+            font-size: 12px;
+        }
+
+        .password-match-indicator {
+            display: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .password-match-indicator.show {
+            display: block;
+        }
+
+        .password-match-indicator.match {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .password-match-indicator.no-match {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .form-group-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .checkbox-group label {
+            margin: 0;
+            font-weight: 400;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .checkbox-group a {
+            color: #8B7355;
+            text-decoration: none;
+            margin: 0 3px;
+        }
+
+        .checkbox-group a:hover {
+            text-decoration: underline;
+        }
+
+        .form-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: #8B7355;
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: #6d5a45;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(139, 115, 85, 0.3);
+        }
+
+        .btn-primary:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #8B7355;
+            border: 2px solid #8B7355;
+        }
+
+        .btn-secondary:hover {
+            background: #8B7355;
+            color: white;
+        }
+
+        .message {
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .message.show {
+            display: block;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .message.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .register-footer {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid #ddd;
+        }
+
+        .register-footer p {
+            color: #666;
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .register-footer a {
+            color: #8B7355;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .register-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .loading-spinner {
+            display: none;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #fff;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .btn:not(:disabled) .loading-spinner {
+            display: inline-block;
+        }
+
+        @media (max-width: 480px) {
+            .register-wrapper {
+                padding: 30px 20px;
+            }
+
+            .register-header h1 {
+                font-size: 24px;
+            }
+
+            .form-group-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus {
+            -webkit-box-shadow: 0 0 0 1000px white inset !important;
+            -webkit-text-fill-color: #333 !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="loadingSpinner" class="loading-overlay hidden">
+        <div class="spinner"></div>
+    </div>
+    <header>
+        <div class="container">
+            <div class="brand">
+                <div class="logo-container">
+                    <img src="images/Gentlemen Parlor Logo copy.png" alt="Gentlemen Parlor Logo" />
+                </div>
+                <h1>GENTLEMEN PARLOR</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="user.html" data-account-link>Account</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="register-container">
+        <div class="register-wrapper">
+            <div class="register-header">
+                <h1>Create Your Account</h1>
+                <p>Join our community of distinguished gentlemen</p>
+            </div>
+
+            <div id="messageBox" class="message"></div>
+
+            <form id="registerForm">
+                <!-- Full Name -->
+                <div class="form-group">
+                    <label for="fullName">Full Name <span class="required-star">*</span></label>
+                    <input 
+                        type="text" 
+                        id="fullName" 
+                        name="fullName" 
+                        placeholder="Enter your full name" 
+                        required 
+                    />
+                </div>
+
+                <!-- Email -->
+                <div class="form-group">
+                    <label for="email">Email Address <span class="required-star">*</span></label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        placeholder="example@email.com" 
+                        required 
+                    />
+                </div>
+
+                <!-- Phone Number -->
+                <div class="form-group">
+                    <label for="phone">Phone Number <span class="required-star">*</span></label>
+                    <input 
+                        type="tel" 
+                        id="phone" 
+                        name="phone" 
+                        placeholder="+1 (555) 000-0000" 
+                        required 
+                    />
+                </div>
+
+                <!-- Password -->
+                <div class="form-group">
+                    <label for="password">Create Password <span class="required-star">*</span></label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        placeholder="Enter a strong password" 
+                        required 
+                    />
+                </div>
+
+                <!-- Password Requirements -->
+                <div class="password-requirements">
+                    <strong>Password Requirements:</strong>
+                    <ul>
+                        <li id="req-length">At least 8 characters</li>
+                        <li id="req-uppercase">At least one uppercase letter (A-Z)</li>
+                        <li id="req-lowercase">At least one lowercase letter (a-z)</li>
+                        <li id="req-number">At least one number (0-9)</li>
+                    </ul>
+                </div>
+
+                <!-- Confirm Password -->
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password <span class="required-star">*</span></label>
+                    <input 
+                        type="password" 
+                        id="confirmPassword" 
+                        name="confirmPassword" 
+                        placeholder="Re-enter your password" 
+                        required 
+                    />
+                </div>
+
+                <!-- Password Match Indicator -->
+                <div id="passwordMatchIndicator" class="password-match-indicator"></div>
+
+                <!-- Terms & Conditions -->
+                <div class="checkbox-group">
+                    <input 
+                        type="checkbox" 
+                        id="agreeTerms" 
+                        name="agreeTerms" 
+                        required 
+                    />
+                    <label for="agreeTerms">
+                        I agree to the <a href="#" target="_blank">Terms and Conditions</a> and <a href="#" target="_blank">Privacy Policy</a>
+                    </label>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary" id="submitBtn">
+                        <span class="loading-spinner"></span>
+                        Create Account
+                    </button>
+                </div>
+            </form>
+
+            <!-- Footer -->
+            <div class="register-footer">
+                <p>Already have an account? <a href="login.html">Sign In</a></p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 GENTLEMEN PARLOR. All rights reserved.</p>
+    </footer>
+
+    <script src="js/utilities.js"></script>
+    <script src="js/toast.js"></script>
+    <script src="js/apiService.js"></script>
+    <script src="js/navUser.js"></script>
+    <script>
+        const fullNameInput = document.getElementById('fullName');
+        const emailInput = document.getElementById('email');
+        const phoneInput = document.getElementById('phone');
+        const passwordInput = document.getElementById('password');
+        const confirmPasswordInput = document.getElementById('confirmPassword');
+        const agreeTermsCheckbox = document.getElementById('agreeTerms');
+        const registerForm = document.getElementById('registerForm');
+        const messageBox = document.getElementById('messageBox');
+        const passwordMatchIndicator = document.getElementById('passwordMatchIndicator');
+        const submitBtn = document.getElementById('submitBtn');
+        const requirementLabels = {
+            length: 'At least 8 characters',
+            uppercase: 'At least one uppercase letter (A-Z)',
+            lowercase: 'At least one lowercase letter (a-z)',
+            number: 'At least one number (0-9)',
+        };
+
+        // Password validation requirements
+        const passwordRequirements = {
+            length: (password) => password.length >= 8,
+            uppercase: (password) => /[A-Z]/.test(password),
+            lowercase: (password) => /[a-z]/.test(password),
+            number: (password) => /[0-9]/.test(password),
+        };
+
+        // Update password requirements display
+        function updatePasswordRequirements() {
+            const password = passwordInput.value;
+
+            Object.keys(passwordRequirements).forEach((key) => {
+                const element = document.getElementById(`req-${key.replace(/([A-Z])/g, '-$1').toLowerCase()}`);
+                const isMet = passwordRequirements[key](password);
+
+                if (element) {
+                    if (isMet) {
+                        element.classList.add('met');
+                        element.textContent = `OK ${requirementLabels[key]}`;
+                    } else {
+                        element.classList.remove('met');
+                        element.textContent = requirementLabels[key];
+                    }
+                }
+            });
+
+            checkPasswordMatch();
+        }
+
+        // Check if passwords match
+        function checkPasswordMatch() {
+            const matchIndicator = document.getElementById('passwordMatchIndicator');
+
+            if (confirmPasswordInput.value === '') {
+                matchIndicator.classList.remove('show');
+                return;
+            }
+
+            matchIndicator.classList.add('show');
+
+            if (passwordInput.value === confirmPasswordInput.value) {
+                matchIndicator.classList.remove('no-match');
+                matchIndicator.classList.add('match');
+                matchIndicator.textContent = '✓ Passwords match';
+            } else {
+                matchIndicator.classList.remove('match');
+                matchIndicator.classList.add('no-match');
+                matchIndicator.textContent = '✗ Passwords do not match';
+            }
+        }
+
+        // Validate password strength
+        function isPasswordStrong(password) {
+            return Object.values(passwordRequirements).every((check) => check(password));
+        }
+
+        // Validate email format
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        // Validate phone format
+        function isValidPhone(phone) {
+            const phoneRegex = /^[\d\s\-\+\(\)]+$/;
+            return phoneRegex.test(phone) && phone.replace(/\D/g, '').length >= 10;
+        }
+
+        // Show message
+        function showMessage(text, type) {
+            messageBox.textContent = text;
+            messageBox.className = `message show ${type}`;
+
+            if (type !== 'error') {
+                setTimeout(() => {
+                    messageBox.classList.remove('show');
+                }, 5000);
+            }
+
+            if (toast && typeof toast[type] === 'function') {
+                toast[type](text);
+            }
+        }
+
+        // Event listeners
+        passwordInput.addEventListener('input', updatePasswordRequirements);
+        confirmPasswordInput.addEventListener('input', checkPasswordMatch);
+
+        // Form submission
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Validation
+            const fullName = fullNameInput.value.trim();
+            const email = emailInput.value.trim();
+            const phone = phoneInput.value.trim();
+            const password = passwordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+            const agreeTerms = agreeTermsCheckbox.checked;
+
+            if (!fullName) {
+                showMessage('Please enter your full name', 'error');
+                fullNameInput.focus();
+                return;
+            }
+
+            if (!email || !isValidEmail(email)) {
+                showMessage('Please enter a valid email address', 'error');
+                emailInput.focus();
+                return;
+            }
+
+            if (!phone || !isValidPhone(phone)) {
+                showMessage('Please enter a valid phone number (at least 10 digits)', 'error');
+                phoneInput.focus();
+                return;
+            }
+
+            if (!password || !isPasswordStrong(password)) {
+                showMessage('Password does not meet all requirements', 'error');
+                passwordInput.focus();
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showMessage('Passwords do not match', 'error');
+                confirmPasswordInput.focus();
+                return;
+            }
+
+            if (!agreeTerms) {
+                showMessage('Please agree to the Terms and Conditions', 'error');
+                agreeTermsCheckbox.focus();
+                return;
+            }
+
+            // Split full name into first and last name
+            const nameParts = fullName.split(' ');
+            const firstName = nameParts[0];
+            const lastName = nameParts.slice(1).join(' ') || nameParts[0];
+
+            try {
+                submitBtn.disabled = true;
+                showMessage('Creating your account...', 'info');
+
+                const response = await apiService.register({
+                    firstName: firstName,
+                    lastName: lastName,
+                    email: email,
+                    phone: phone,
+                    password: password,
+                    confirmPassword: confirmPassword,
+                });
+
+                if (response.success) {
+                    storageManager.set('user', response.user);
+                    showMessage('Account created successfully! Redirecting...', 'success');
+                    setTimeout(() => {
+                        window.location.href = 'user.html';
+                    }, 2000);
+                } else {
+                    showMessage(response.message || 'Error creating account', 'error');
+                    submitBtn.disabled = false;
+                }
+            } catch (error) {
+                const errorMsg = errorHandler ? errorHandler.getErrorMessage(error) : (error.message || 'An error occurred. Please try again.');
+                console.error('Registration error:', error);
+                showMessage(errorMsg, 'error');
+                submitBtn.disabled = false;
+            }
+        });
+
+        window.addEventListener('load', async () => {
+            if (!storageManager.get('user')) {
+                return;
+            }
+
+            try {
+                await apiService.getProfile();
+                window.location.href = 'user.html';
+            } catch (error) {
+                storageManager.remove('user');
+            }
+        });
+    </script>
+    <script src="js/smoothNavigation.js"></script>
+</body>
+</html>

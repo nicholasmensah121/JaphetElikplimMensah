@@ -4,17 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us - Gentlemen PARLOR</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/notifications.css">
 </head>
 <body>
+    <div id="loadingSpinner" class="loading-overlay hidden">
+        <div class="spinner"></div>
+    </div>
     <header>
         <div class="container">
-            <h1>GENTLEMEN PARLOR</h1>
+            <div class="brand">
+                <div class="logo-container">
+                    <img src="images/Gentlemen Parlor Logo copy.png" alt="Gentlemen Parlor Logo" />
+                </div>
+                <h1>GENTLEMEN PARLOR</h1>
+            </div>
             <nav>
                 <ul>
                     <li><a href="index.html">Home</a></li>
                     <li><a href="about.html" class="active">About</a></li>
                     <li><a href="contact.html">Contact</a></li>
+                    <li><a href="user.html" data-account-link>Account</a></li>
                 </ul>
             </nav>
         </div>
@@ -22,19 +32,267 @@
 
     <section class="about">
         <div class="container">
-            <h2>About Us</h2>
-            <p>
+            <h2 class="reveal">About Us</h2>
+            <p class="reveal about-intro">
                 At GENTLEMEN PARLOR, we believe that true style never goes out of fashion.
                 Our mission is to provide high-quality, timeless clothing for the modern man who values class, confidence, and sophistication.
             </p>
-            <p>
-                Founded in 1998, we’ve grown from a small tailor shop to a trusted brand offering a full range of suits, shirts, shoes, and accessories.
-            </p>
+
+            <div class="about-content">
+                <div class="about-story reveal">
+                    <h3>Our Story</h3>
+                    <p>
+                        Founded in 2024, GENTLEMEN PARLOR began as a vision to redefine men's fashion. 
+                        We started with a simple belief: every gentleman deserves access to premium, 
+                        well-crafted clothing that reflects their personal style and professional aspirations.
+                    </p>
+                    <p>
+                        What began as a small boutique has grown into a trusted brand offering a comprehensive 
+                        range of suits, shirts, shoes, accessories, and more. Our commitment to quality, 
+                        craftsmanship, and customer satisfaction has made us a preferred choice for 
+                        discerning gentlemen worldwide.
+                    </p>
+                </div>
+
+                <div class="about-values reveal">
+                    <h3>Our Values</h3>
+                    <div class="values-grid">
+                        <div class="value-item">
+                            <div class="value-icon">🎯</div>
+                            <h4>Quality First</h4>
+                            <p>We source only the finest materials and work with skilled artisans to ensure every piece meets our high standards.</p>
+                        </div>
+                        <div class="value-item">
+                            <div class="value-icon">👔</div>
+                            <h4>Timeless Style</h4>
+                            <p>Our designs focus on classic elegance that transcends trends, creating pieces you'll love for years to come.</p>
+                        </div>
+                        <div class="value-item">
+                            <div class="value-icon">🤝</div>
+                            <h4>Customer Service</h4>
+                            <p>We're committed to providing exceptional service and personalized attention to every customer.</p>
+                        </div>
+                        <div class="value-item">
+                            <div class="value-icon">🌱</div>
+                            <h4>Sustainability</h4>
+                            <p>We're dedicated to ethical practices and sustainable fashion that respects both people and the planet.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="about-mission reveal">
+                    <h3>Our Mission</h3>
+                    <p>
+                        To empower every gentleman to express his unique style with confidence through 
+                        premium, timeless fashion that combines traditional craftsmanship with modern sensibilities. 
+                        We strive to be more than just a clothing brand – we're your partner in personal style and professional success.
+                    </p>
+                </div>
+            </div>
+
+            <div class="management-section">
+                <h2 class="reveal">Meet Our Team</h2>
+                <p class="reveal management-intro">
+                    Behind GENTLEMEN PARLOR is a team of passionate professionals dedicated to bringing you 
+                    the finest in men's fashion. Meet the leaders who drive our vision forward.
+                </p>
+
+                <div class="management-grid">
+                    <div class="management-card reveal">
+                        <div class="card-image">
+                            <img src="images/Management/LinkedIn Profile Professional Photo Image Suit Man….jpeg" alt="Alexander Sterling - CEO" />
+                        </div>
+                        <div class="card-content">
+                            <h3>Japheth Eliplim Mensah</h3>
+                            <h4>Chief Executive Officer</h4>
+                            <p>
+                                With over 15 years in luxury fashion, Alexander leads our vision of creating 
+                                timeless menswear that empowers gentlemen worldwide. His passion for quality 
+                                and innovation drives our brand forward.
+                            </p>
+                            <div class="social-links">
+                                <a href="#" aria-label="LinkedIn">💼</a>
+                                <a href="#" aria-label="Email">✉️</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="management-card reveal">
+                        <div class="card-image">
+                            <img src="images/Management/d54b4d31-8c84-48d6-91bd-7b261a24a87b.jpeg" alt="Marcus Chen - CTO" />
+                        </div>
+                        <div class="card-content">
+                            <h3>Marcus Chen</h3>
+                            <h4>Chief Technology Officer</h4>
+                            <p>
+                                Marcus oversees our digital transformation and e-commerce platform. 
+                                His expertise in technology ensures seamless online experiences 
+                                for our customers while maintaining our traditional values.
+                            </p>
+                            <div class="social-links">
+                                <a href="#" aria-label="LinkedIn">💼</a>
+                                <a href="#" aria-label="Email">✉️</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="management-card reveal">
+                        <div class="card-image">
+                            <img src="images/Management/5c55dbe9-cae4-4092-9bd0-33011122ea09.jpeg" alt="Victoria Rodriguez - CMO" />
+                        </div>
+                        <div class="card-content">
+                            <h3>Victoria Rodriguez</h3>
+                            <h4>Chief Marketing Officer</h4>
+                            <p>
+                                Victoria brings our brand story to life through innovative marketing strategies. 
+                                Her creative vision helps us connect with gentlemen who appreciate 
+                                quality, style, and authenticity.
+                            </p>
+                            <div class="social-links">
+                                <a href="#" aria-label="LinkedIn">💼</a>
+                                <a href="#" aria-label="Email">✉️</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="management-card reveal">
+                        <div class="card-image">
+                            <img src="images/Management/Transform your portraits with GlamrPro AI Headshot….jpeg" alt="James Thompson - Head Designer" />
+                        </div>
+                        <div class="card-content">
+                            <h3>James Thompson</h3>
+                            <h4>Head Designer</h4>
+                            <p>
+                                James is the creative force behind our collections. With a background 
+                                in Savile Row tailoring, he ensures every piece embodies the perfect 
+                                balance of tradition and contemporary style.
+                            </p>
+                            <div class="social-links">
+                                <a href="#" aria-label="LinkedIn">💼</a>
+                                <a href="#" aria-label="Email">✉️</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="company-stats reveal">
+                <h3>Our Impact</h3>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number">50K+</div>
+                        <div class="stat-label">Happy Customers</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">15+</div>
+                        <div class="stat-label">Countries Served</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">500+</div>
+                        <div class="stat-label">Products Available</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">98%</div>
+                        <div class="stat-label">Customer Satisfaction</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
     <footer>
         <p>&copy; 2025 GENTLEMEN PARLOR. All rights reserved.</p>
     </footer>
+    
+    <script src="js/utilities.js"></script>
+    <script src="js/toast.js"></script>
+    <script src="js/navUser.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Reveal animations
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('reveal-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+            // Animated counter for stats
+            const animateCounters = () => {
+                const counters = document.querySelectorAll('.stat-number');
+                counters.forEach(counter => {
+                    const target = parseInt(counter.textContent.replace(/[^\d]/g, ''));
+                    const duration = 2000; // 2 seconds
+                    const increment = target / (duration / 16); // 60fps
+                    let current = 0;
+                    
+                    const updateCounter = () => {
+                        current += increment;
+                        if (current < target) {
+                            const displayValue = Math.floor(current);
+                            if (counter.textContent.includes('K+')) {
+                                counter.textContent = displayValue + 'K+';
+                            } else if (counter.textContent.includes('%')) {
+                                counter.textContent = displayValue + '%';
+                            } else {
+                                counter.textContent = displayValue + '+';
+                            }
+                            requestAnimationFrame(updateCounter);
+                        } else {
+                            counter.textContent = counter.textContent; // Keep original format
+                        }
+                    };
+                    
+                    updateCounter();
+                });
+            };
+
+            // Trigger counter animation when stats section is visible
+            const statsObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateCounters();
+                        statsObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            const statsSection = document.querySelector('.company-stats');
+            if (statsSection) {
+                statsObserver.observe(statsSection);
+            }
+
+            // Management card hover effects
+            const managementCards = document.querySelectorAll('.management-card');
+            managementCards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.transform = 'translateY(-8px)';
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'translateY(0)';
+                });
+            });
+
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(a => {
+                a.addEventListener('click', (e) => {
+                    const href = a.getAttribute('href');
+                    if (href.length > 1) {
+                        e.preventDefault();
+                        const target = document.querySelector(href);
+                        if (target) {
+                            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+    <script src="js/smoothNavigation.js"></script>
 </body>
 </html>

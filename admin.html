@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard - GENTLEMEN PARLOR</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="css/notifications.css" />
+    <style>
+        .admin-dashboard {
+            padding: 3rem 0;
+        }
+        .admin-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .admin-card {
+            padding: 1.5rem;
+            border-radius: 1rem;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+            transition: transform 0.2s ease;
+        }
+        .admin-card:hover {
+            transform: translateY(-2px);
+        }
+        .admin-card h3 {
+            margin: 0 0 0.5rem;
+            font-size: 2.5rem;
+            color: var(--primary-color, #111);
+        }
+        .admin-card p {
+            margin: 0;
+            color: #555;
+        }
+        .admin-panel {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 1.5rem;
+        }
+        .admin-panel-section {
+            padding: 1.5rem;
+            border-radius: 1rem;
+            background: rgba(255, 255, 255, 0.96);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+        }
+        .admin-panel-section h3 {
+            margin-top: 0;
+        }
+        .contact-list {
+            display: grid;
+            gap: 1rem;
+        }
+        .contact-card {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: 1rem;
+            background: #f8f9fb;
+            border: 1px solid #e3e7ee;
+        }
+        .contact-card:hover {
+            border-color: var(--primary-color, #111);
+        }
+        .contact-card-header {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .contact-card-title {
+            font-weight: 700;
+            margin: 0;
+        }
+        .contact-card-meta {
+            color: #666;
+            margin: 0.25rem 0 0;
+        }
+        .contact-card-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .contact-card-actions button {
+            white-space: nowrap;
+        }
+        .btn-small {
+            padding: 0.55rem 0.9rem;
+            font-size: 0.85rem;
+            border-radius: 999px;
+        }
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #111;
+            border: 1px solid transparent;
+        }
+        .btn-secondary:hover {
+            background: #d0d7e2;
+        }
+        .btn-danger {
+            background: #ff5f5f;
+            color: #fff;
+            border: 1px solid transparent;
+        }
+        .btn-danger:hover {
+            background: #e14a4a;
+        }
+        .contact-details {
+            min-height: 240px;
+            padding: 1rem;
+            border-radius: 1rem;
+            background: #f9fbff;
+            border: 1px solid #dfe6f0;
+        }
+        .contact-details.empty {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+        }
+        .contact-details p {
+            margin: 0.75rem 0;
+            line-height: 1.5;
+        }
+        .contact-details dt {
+            font-weight: 700;
+            margin-top: 1rem;
+        }
+        .contact-details dd {
+            margin: 0.25rem 0 0 0;
+            color: #333;
+        }
+        @media (max-width: 900px) {
+            .admin-panel {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="loadingSpinner" class="loading-overlay hidden">
+        <div class="spinner"></div>
+    </div>
+    <header>
+        <div class="container">
+            <div class="brand">
+                <div class="logo-container">
+                    <img src="images/Gentlemen Parlor Logo copy.png" alt="Gentlemen Parlor Logo" />
+                </div>
+                <h1>GENTLEMEN PARLOR</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="user.html" data-account-link>Account</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="admin-dashboard">
+        <div class="container">
+            <h2>Admin Dashboard</h2>
+            <p>Manage incoming contact messages and review admin submissions.</p>
+
+            <div class="admin-summary">
+                <div class="admin-card">
+                    <h3 id="totalMessagesCount">0</h3>
+                    <p>Contact messages received</p>
+                </div>
+                <div class="admin-card">
+                    <h3 id="activeAdmins">1</h3>
+                    <p>Admin accounts</p>
+                </div>
+            </div>
+
+            <div class="admin-panel">
+                <div class="admin-panel-section">
+                    <h3>Recent contact messages</h3>
+                    <div id="contactMessagesContainer" class="contact-list">
+                        <p>Loading messages...</p>
+                    </div>
+                </div>
+                <div class="admin-panel-section">
+                    <h3>Message details</h3>
+                    <div id="messageDetails" class="contact-details empty">
+                        Select a message to view the full details.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 GENTLEMEN PARLOR. All rights reserved.</p>
+    </footer>
+
+    <script src="js/utilities.js"></script>
+    <script src="js/toast.js"></script>
+    <script src="js/apiService.js"></script>
+    <script src="js/navUser.js"></script>
+    <script src="js/admin.js"></script>
+    <script src="js/smoothNavigation.js"></script>
+</body>
+</html>

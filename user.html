@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Account - GENTLEMEN PARLOR</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="css/notifications.css" />
+    <style>
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-container {
+            flex: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .user-section {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .user-sidebar {
+            background: #f5f5f5;
+            padding: 30px;
+            border-radius: 8px;
+            height: fit-content;
+        }
+
+        .user-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .user-menu li {
+            margin: 0;
+        }
+
+        .user-menu button {
+            width: 100%;
+            padding: 12px 20px;
+            border: none;
+            background: transparent;
+            text-align: left;
+            cursor: pointer;
+            font-size: 16px;
+            color: #333;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+            margin-bottom: 5px;
+        }
+
+        .user-menu button:hover,
+        .user-menu button.active {
+            background: #e0e0e0;
+            border-left-color: #8B7355;
+            font-weight: 600;
+        }
+
+        .user-content {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-content.hidden {
+            display: none;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: #8B7355;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #6d5a45;
+        }
+
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #d0d0d0;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .cart-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background: #f9f9f9;
+        }
+
+        .cart-item {
+            display: grid;
+            grid-template-columns: 1fr auto auto;
+            gap: 15px;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .cart-item-meta {
+            color: #666;
+            font-size: 13px;
+        }
+
+        .cart-item-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .qty-input {
+            width: 70px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .cart-summary {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .cart-summary strong {
+            font-size: 18px;
+        }
+
+        .cart-status {
+            margin-bottom: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+        }
+
+        .empty-state p {
+            margin: 10px 0;
+        }
+
+        .auth-section {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .auth-section h2 {
+            margin-bottom: 20px;
+        }
+
+        .auth-links {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .success-message,
+        .error-message {
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        @media (max-width: 768px) {
+            .user-section {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="loadingSpinner" class="loading-overlay hidden">
+        <div class="spinner"></div>
+    </div>
+    <header>
+        <div class="container">
+            <div class="brand">
+                <div class="logo-container">
+                    <img src="images/Gentlemen Parlor Logo copy.png" alt="Gentlemen Parlor Logo" />
+                </div>
+                <h1>GENTLEMEN PARLOR</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="user.html" class="active" data-account-link>Account</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="user-container">
+        <!-- Not Authenticated -->
+        <div id="notAuthenticatedSection" class="auth-section">
+            <h2>Your Account</h2>
+            <p>Please log in or create an account to view your profile and orders.</p>
+            <div class="auth-links">
+                <a href="login.html" class="btn btn-primary">Login</a>
+                <a href="register.html" class="btn btn-secondary">Create Account</a>
+            </div>
+        </div>
+
+        <!-- Authenticated User Section -->
+        <div id="authenticatedSection" class="user-section hidden">
+            <!-- Sidebar Menu -->
+            <div class="user-sidebar">
+                <h3>Account Menu</h3>
+                <ul class="user-menu">
+                    <li><button class="menu-btn active" data-section="profile">My Profile</button></li>
+                    <li><button class="menu-btn" data-section="cart">My Cart</button></li>
+                    <li><button class="menu-btn" data-section="addresses">Addresses</button></li>
+                    <li><button class="menu-btn" data-section="settings">Settings</button></li>
+                    <li class="profile-menu-divider">
+                        <button class="menu-btn" id="logoutBtn">Logout</button>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Main Content Area -->
+            <div>
+                <!-- Profile Section -->
+                <div id="profileSection" class="user-content">
+                    <h2>My Profile</h2>
+                    <div id="profileMessage"></div>
+                    <form id="profileForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName">First Name</label>
+                                <input type="text" id="firstName" name="firstName" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">Last Name</label>
+                                <input type="text" id="lastName" name="lastName" required />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" readonly />
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" />
+                        </div>
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-primary">Update Profile</button>
+                            <button type="reset" class="btn btn-secondary">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Orders Section -->
+                <div id="cartSection" class="user-content hidden">
+                    <h2>My Cart</h2>
+                    <div id="cartStatus" class="cart-status"></div>
+                    <div id="cartMessage"></div>
+                    <div id="cartList"></div>
+                </div>
+
+                <!-- Addresses Section -->
+                <div id="addressesSection" class="user-content hidden">
+                    <h2>Delivery Addresses</h2>
+                    <div id="addressMessage"></div>
+                    <form id="addressForm">
+                        <div class="form-group">
+                            <label for="street">Street Address</label>
+                            <input type="text" id="street" name="street" />
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="city">City</label>
+                                <input type="text" id="city" name="city" />
+                            </div>
+                            <div class="form-group">
+                                <label for="state">State/Province</label>
+                                <input type="text" id="state" name="state" />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="zip">ZIP/Postal Code</label>
+                                <input type="text" id="zip" name="zip" />
+                            </div>
+                            <div class="form-group">
+                                <label for="country">Country</label>
+                                <input type="text" id="country" name="country" />
+                            </div>
+                        </div>
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-primary">Save Address</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Settings Section -->
+                <div id="settingsSection" class="user-content hidden">
+                    <h2>Account Settings</h2>
+                    <div id="settingsMessage"></div>
+                    <form id="settingsForm">
+                        <div class="form-group">
+                            <label for="currentPassword">Current Password</label>
+                            <input type="password" id="currentPassword" name="currentPassword" />
+                        </div>
+                        <div class="form-group">
+                            <label for="newPassword">New Password</label>
+                            <input type="password" id="newPassword" name="newPassword" />
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmPassword">Confirm Password</label>
+                            <input type="password" id="confirmPassword" name="confirmPassword" />
+                        </div>
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-primary">Change Password</button>
+                            <button type="reset" class="btn btn-secondary">Cancel</button>
+                        </div>
+                    </form>
+                    <hr class="section-divider" />
+                    <h3>Danger Zone</h3>
+                    <p class="danger-text">Once you delete your account, there is no going back. Please be certain.</p>
+                    <button class="btn btn-danger" id="deleteAccountBtn">Delete Account</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 GENTLEMEN PARLOR. All rights reserved.</p>
+    </footer>
+
+    <script src="js/utilities.js"></script>
+    <script src="js/toast.js"></script>
+    <script src="js/apiService.js"></script>
+    <script src="js/navUser.js"></script>
+    <script>
+        const notAuthenticatedSection = document.getElementById('notAuthenticatedSection');
+        const authenticatedSection = document.getElementById('authenticatedSection');
+        const navCartCount = document.getElementById('navCartCount');
+        const cartStatus = document.getElementById('cartStatus');
+        const cartList = document.getElementById('cartList');
+        let cartRefreshInterval = null;
+
+        function showMessage(elementId, message, type) {
+            const messageDiv = document.getElementById(elementId);
+            if (messageDiv) {
+                const messageClass = type === 'success' ? 'success-message' : 'error-message';
+                const wrapper = document.createElement('div');
+                wrapper.className = messageClass;
+                wrapper.textContent = message;
+                messageDiv.replaceChildren(wrapper);
+
+                setTimeout(() => {
+                    messageDiv.replaceChildren();
+                }, 5000);
+            }
+
+            if (toast && typeof toast[type] === 'function') {
+                toast[type](message);
+            }
+        }
+
+        async function checkAuthentication() {
+            const hasUser = !!storageManager.get('user');
+            const hasToken = typeof apiService.hasStoredToken === 'function' ? apiService.hasStoredToken() : false;
+            let isAuthenticated = false;
+
+            if (hasUser || hasToken) {
+                try {
+                    await apiService.getProfile();
+                    isAuthenticated = true;
+                } catch (error) {
+                    storageManager.remove('user');
+                    if (typeof apiService.clearStoredToken === 'function') {
+                        apiService.clearStoredToken();
+                    }
+                }
+            }
+
+            notAuthenticatedSection.style.display = isAuthenticated ? 'none' : 'block';
+            authenticatedSection.style.display = isAuthenticated ? 'grid' : 'none';
+
+            return isAuthenticated;
+        }
+
+        function renderCartState(message) {
+            const emptyState = document.createElement('div');
+            emptyState.className = 'empty-state';
+            const paragraph = document.createElement('p');
+            paragraph.textContent = message;
+            emptyState.appendChild(paragraph);
+            cartList.replaceChildren(emptyState);
+        }
+
+        function buildCartItem(item) {
+            const product = item.productId;
+            const itemTotal = (product.price * item.quantity).toFixed(2);
+            const cartItem = document.createElement('div');
+            cartItem.className = 'cart-item';
+
+            const details = document.createElement('div');
+            const name = document.createElement('div');
+            name.className = 'cart-item-name';
+            name.textContent = product.name;
+            const meta = document.createElement('div');
+            meta.className = 'cart-item-meta';
+            meta.textContent = `$${product.price.toFixed(2)} each`;
+            details.appendChild(name);
+            details.appendChild(meta);
+
+            const actions = document.createElement('div');
+            actions.className = 'cart-item-actions';
+            const qtyInput = document.createElement('input');
+            qtyInput.type = 'number';
+            qtyInput.min = '1';
+            qtyInput.value = String(item.quantity);
+            qtyInput.className = 'qty-input';
+            qtyInput.dataset.cartQty = 'true';
+            qtyInput.dataset.productId = product._id;
+            const updateButton = document.createElement('button');
+            updateButton.className = 'btn btn-secondary';
+            updateButton.dataset.updateCart = 'true';
+            updateButton.dataset.productId = product._id;
+            updateButton.textContent = 'Update';
+            actions.appendChild(qtyInput);
+            actions.appendChild(updateButton);
+
+            const totals = document.createElement('div');
+            const totalLabel = document.createElement('div');
+            totalLabel.className = 'cart-item-name';
+            totalLabel.textContent = `$${itemTotal}`;
+            const removeButton = document.createElement('button');
+            removeButton.className = 'btn btn-danger';
+            removeButton.dataset.removeCart = 'true';
+            removeButton.dataset.productId = product._id;
+            removeButton.textContent = 'Remove';
+            totals.appendChild(totalLabel);
+            totals.appendChild(removeButton);
+
+            cartItem.appendChild(details);
+            cartItem.appendChild(actions);
+            cartItem.appendChild(totals);
+
+            return cartItem;
+        }
+
+        function renderCart(cart) {
+            if (!cart.items || cart.items.length === 0) {
+                renderCartState('Your cart is empty');
+                return;
+            }
+
+            const cartCard = document.createElement('div');
+            cartCard.className = 'cart-card';
+
+            cart.items.forEach((item) => {
+                cartCard.appendChild(buildCartItem(item));
+            });
+
+            const summary = document.createElement('div');
+            summary.className = 'cart-summary';
+            const total = document.createElement('strong');
+            total.textContent = `Total: $${(cart.totalPrice || 0).toFixed(2)}`;
+            const clearButton = document.createElement('button');
+            clearButton.className = 'btn btn-secondary';
+            clearButton.id = 'clearCartBtn';
+            clearButton.textContent = 'Clear Cart';
+            summary.appendChild(total);
+            summary.appendChild(clearButton);
+            cartCard.appendChild(summary);
+
+            cartList.replaceChildren(cartCard);
+            bindCartActions();
+        }
+
+        async function loadUserCart() {
+            try {
+                const response = await apiService.getCart();
+                const cart = response.cart;
+                const totalItems = cart.totalItems || 0;
+
+                if (navCartCount) {
+                    navCartCount.textContent = `(${totalItems})`;
+                }
+
+                updateCartStatus(totalItems);
+                renderCart(cart);
+            } catch (error) {
+                console.error('Error loading cart:', error);
+                updateCartStatus(null, true);
+                renderCartState('Error loading cart');
+            }
+        }
+
+        function updateCartStatus(totalItems, hasError = false) {
+            if (!cartStatus) {
+                return;
+            }
+
+            const now = new Date();
+            const lastUpdated = `${now.toLocaleDateString()} ${now.toLocaleTimeString()}`;
+
+            if (hasError) {
+                cartStatus.textContent = `Unable to refresh cart data. Last checked: ${lastUpdated}`;
+                return;
+            }
+
+            cartStatus.textContent = `Live cart data: ${totalItems} item${totalItems === 1 ? '' : 's'} • Updated ${lastUpdated}`;
+        }
+
+        function startCartRefresh() {
+            if (cartRefreshInterval) {
+                clearInterval(cartRefreshInterval);
+            }
+
+            loadUserCart();
+            cartRefreshInterval = setInterval(loadUserCart, 10000);
+        }
+
+        function stopCartRefresh() {
+            if (cartRefreshInterval) {
+                clearInterval(cartRefreshInterval);
+                cartRefreshInterval = null;
+            }
+        }
+
+        async function loadUserProfile() {
+            try {
+                const response = await apiService.getProfile();
+                const user = response.user;
+
+                document.getElementById('firstName').value = user.firstName || '';
+                document.getElementById('lastName').value = user.lastName || '';
+                document.getElementById('email').value = user.email || '';
+                document.getElementById('phone').value = user.phone || '';
+
+                if (user.address) {
+                    document.getElementById('street').value = user.address.street || '';
+                    document.getElementById('city').value = user.address.city || '';
+                    document.getElementById('state').value = user.address.state || '';
+                    document.getElementById('zip').value = user.address.zip || '';
+                    document.getElementById('country').value = user.address.country || '';
+                }
+
+                storageManager.set('user', user);
+            } catch (error) {
+                console.error('Error loading profile:', error);
+                showMessage('profileMessage', 'Error loading profile information', 'error');
+            }
+        }
+
+        function bindCartActions() {
+            document.querySelectorAll('[data-update-cart]').forEach(button => {
+                button.addEventListener('click', async () => {
+                    const productId = button.dataset.productId;
+                    const qtyInput = document.querySelector(`[data-cart-qty][data-product-id="${productId}"]`);
+                    const quantity = Number(qtyInput.value);
+
+                    if (!quantity || quantity < 1) {
+                        showMessage('cartMessage', 'Quantity must be at least 1.', 'error');
+                        return;
+                    }
+
+                    try {
+                        await apiService.updateCartItem(productId, quantity);
+                        showMessage('cartMessage', 'Cart updated successfully!', 'success');
+                        loadUserCart();
+                    } catch (error) {
+                        showMessage('cartMessage', error.message || 'Error updating cart', 'error');
+                    }
+                });
+            });
+
+            document.querySelectorAll('[data-remove-cart]').forEach(button => {
+                button.addEventListener('click', async () => {
+                    try {
+                        await apiService.removeFromCart(button.dataset.productId);
+                        showMessage('cartMessage', 'Item removed from cart.', 'success');
+                        loadUserCart();
+                    } catch (error) {
+                        showMessage('cartMessage', error.message || 'Error removing item', 'error');
+                    }
+                });
+            });
+
+            const clearCartButton = document.getElementById('clearCartBtn');
+            if (clearCartButton) {
+                clearCartButton.addEventListener('click', async () => {
+                    try {
+                        await apiService.clearCart();
+                        showMessage('cartMessage', 'Cart cleared successfully!', 'success');
+                        loadUserCart();
+                    } catch (error) {
+                        showMessage('cartMessage', error.message || 'Error clearing cart', 'error');
+                    }
+                });
+            }
+        }
+
+        function showSection(section) {
+            document.querySelectorAll('.menu-btn').forEach(button => {
+                button.classList.toggle('active', button.dataset.section === section);
+            });
+
+            document.querySelectorAll('.user-content').forEach(element => {
+                element.classList.add('hidden');
+            });
+
+            document.getElementById(`${section}Section`).classList.remove('hidden');
+
+            if (section === 'cart') {
+                startCartRefresh();
+            } else {
+                stopCartRefresh();
+            }
+        }
+
+        document.querySelectorAll('.menu-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                if (button.id === 'logoutBtn') {
+                    return;
+                }
+
+                showSection(button.dataset.section);
+            });
+        });
+
+        document.getElementById('profileForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            try {
+                const response = await apiService.updateProfile({
+                    firstName: document.getElementById('firstName').value.trim(),
+                    lastName: document.getElementById('lastName').value.trim(),
+                    phone: document.getElementById('phone').value.trim(),
+                });
+
+                storageManager.set('user', response.user);
+                showMessage('profileMessage', 'Profile updated successfully!', 'success');
+            } catch (error) {
+                showMessage('profileMessage', error.message || 'Error updating profile', 'error');
+            }
+        });
+
+        document.getElementById('addressForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            try {
+                const response = await apiService.updateProfile({
+                    address: {
+                        street: document.getElementById('street').value.trim(),
+                        city: document.getElementById('city').value.trim(),
+                        state: document.getElementById('state').value.trim(),
+                        zip: document.getElementById('zip').value.trim(),
+                        country: document.getElementById('country').value.trim(),
+                    },
+                });
+
+                storageManager.set('user', response.user);
+                showMessage('addressMessage', 'Address saved successfully!', 'success');
+            } catch (error) {
+                showMessage('addressMessage', error.message || 'Error saving address', 'error');
+            }
+        });
+
+        document.getElementById('settingsForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            showMessage('settingsMessage', 'Password change is not available yet.', 'error');
+        });
+
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+            stopCartRefresh();
+            await apiService.logout();
+            checkAuthentication();
+            window.location.href = 'index.html';
+        });
+
+        document.getElementById('deleteAccountBtn').addEventListener('click', () => {
+            if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+                showMessage('settingsMessage', 'Account deletion is not available yet.', 'error');
+            }
+        });
+
+        (async () => {
+            if (await checkAuthentication()) {
+                await loadUserProfile();
+                await loadUserCart();
+                showSection('profile');
+            } else {
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 1200);
+            }
+        })();
+    </script>
+    <script src="js/smoothNavigation.js"></script>
+</body>
+</html>
