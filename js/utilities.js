@@ -2,30 +2,30 @@
 
 class Validator {
   // Email validation
-  static isValidEmail(email) {
+  isValidEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email?.trim() || '');
   }
 
   // Password validation (min 8 chars, at least 1 uppercase, 1 lowercase, 1 number)
-  static isValidPassword(password) {
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+  isValidPassword(password) {
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&\-_#]).{8,}$/;
     return passwordRegex.test(password || '');
   }
 
   // Phone validation (basic international format)
-  static isValidPhone(phone) {
+  isValidPhone(phone) {
     const phoneRegex = /^[\d\s\-\+\(\)]{10,}$/;
     return phoneRegex.test(phone?.trim() || '');
   }
 
   // Name validation
-  static isValidName(name) {
+  isValidName(name) {
     return name?.trim().length >= 2 && name.trim().length <= 50;
   }
 
   // URL validation
-  static isValidUrl(url) {
+  isValidUrl(url) {
     try {
       new URL(url);
       return true;
@@ -35,7 +35,7 @@ class Validator {
   }
 
   // Quantity validation
-  static isValidQuantity(qty) {
+  isValidQuantity(qty) {
     const num = Number(qty);
     return Number.isInteger(num) && num > 0 && num <= 999;
   }
@@ -43,7 +43,7 @@ class Validator {
 
 class Sanitizer {
   // Remove HTML tags and encode special characters
-  static sanitizeHtml(str) {
+  sanitizeHtml(str) {
     if (!str) return '';
     const div = document.createElement('div');
     div.textContent = str;
@@ -51,19 +51,19 @@ class Sanitizer {
   }
 
   // Trim and normalize whitespace
-  static sanitizeString(str) {
+  sanitizeString(str) {
     return (str || '').trim().replace(/\s+/g, ' ');
   }
 
   // Remove special characters except allowed ones
-  static sanitizeInput(str, allowedChars = '') {
+  sanitizeInput(str, allowedChars = '') {
     if (!str) return '';
     const regex = new RegExp(`[^a-zA-Z0-9\\s${allowedChars}]`, 'g');
     return str.replace(regex, '').trim();
   }
 
   // Sanitize form data object
-  static sanitizeFormData(formData) {
+  sanitizeFormData(formData) {
     const sanitized = {};
     for (const [key, value] of Object.entries(formData)) {
       if (typeof value === 'string') {
@@ -77,7 +77,7 @@ class Sanitizer {
 }
 
 class ErrorHandler {
-  static getErrorMessage(error) {
+  getErrorMessage(error) {
     if (typeof error === 'string') {
       return error;
     }
@@ -97,21 +97,21 @@ class ErrorHandler {
     return 'An unexpected error occurred. Please try again.';
   }
 
-  static getErrorCode(error) {
+  getErrorCode(error) {
     return error?.response?.status || error?.status || 500;
   }
 
-  static isNetworkError(error) {
+  isNetworkError(error) {
     return !error?.response || error?.message?.includes('Network');
   }
 
-  static isTimeoutError(error) {
+  isTimeoutError(error) {
     return error?.code === 'ECONNABORTED' || error?.message?.includes('timeout');
   }
 }
 
 class StorageManager {
-  static set(key, value, expiresIn = null) {
+  set(key, value, expiresIn = null) {
     try {
       const item = {
         value,
@@ -126,7 +126,7 @@ class StorageManager {
     }
   }
 
-  static get(key) {
+  get(key) {
     try {
       const item = JSON.parse(localStorage.getItem(key));
       
@@ -148,7 +148,7 @@ class StorageManager {
     }
   }
 
-  static remove(key) {
+  remove(key) {
     try {
       localStorage.removeItem(key);
       return true;
@@ -158,7 +158,7 @@ class StorageManager {
     }
   }
 
-  static clear() {
+  clear() {
     try {
       localStorage.clear();
       return true;

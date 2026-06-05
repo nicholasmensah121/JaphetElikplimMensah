@@ -49,8 +49,6 @@ const verifyCSRFToken = (token, sessionId) => {
     return false;
   }
   
-  // Token is one-time use
-  csrfTokens.delete(token);
   return true;
 };
 
@@ -64,12 +62,31 @@ const csrfProtection = (req, res, next) => {
     const sessionId = req.userId || req.ip;
     const token = generateCSRFToken(sessionId);
     res.locals.csrfToken = token;
+    res.setHeader('X-CSRF-Token', token);
+
+    const exposeHeaderName = 'Access-Control-Expose-Headers';
+    const existingExpose = res.getHeader(exposeHeaderName);
+    const exposeValue = 'X-CSRF-Token';
+
+    if (!existingExpose) {
+      res.setHeader(exposeHeaderName, exposeValue);
+    } else if (Array.isArray(existingExpose)) {
+      if (!existingExpose.includes(exposeValue)) {
+        res.setHeader(exposeHeaderName, [...existingExpose, exposeValue]);
+      }
+    } else if (typeof existingExpose === 'string') {
+      if (!existingExpose.split(',').map((v) => v.trim()).includes(exposeValue)) {
+        res.setHeader(exposeHeaderName, `${existingExpose}, ${exposeValue}`);
+      }
+    }
     return next();
   }
 
   // Verify CSRF token for state-changing requests
   if (['POST', 'PUT', 'DELETE', 'PATCH'].includes(req.method)) {
-    const token = req.body._csrf || req.headers['x-csrf-token'];
+    const headerToken = req.headers['x-csrf-token'];
+    const tokenFromHeader = Array.isArray(headerToken) ? headerToken[0] : headerToken;
+    const token = (req.body && req.body._csrf) || tokenFromHeader;
     const sessionId = req.userId || req.ip;
 
     if (!token) {

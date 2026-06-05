@@ -15,18 +15,18 @@ const cartValidationRules = {
   ],
 
   updateCartItem: () => [
-    param('itemId')
+    param('productId')
       .trim()
-      .isMongoId().withMessage('Invalid item ID'),
+      .isMongoId().withMessage('Invalid product ID'),
     body('quantity')
       .isInt({ min: 1, max: 999 })
       .withMessage('Quantity must be a number between 1 and 999'),
   ],
 
   removeFromCart: () => [
-    param('itemId')
+    param('productId')
       .trim()
-      .isMongoId().withMessage('Invalid item ID'),
+      .isMongoId().withMessage('Invalid product ID'),
   ],
 };
 
@@ -35,15 +35,11 @@ const cartValidationRules = {
  */
 const orderValidationRules = {
   createOrder: () => [
-    body('items')
-      .isArray({ min: 1 })
-      .withMessage('Order must contain at least one item'),
-    body('items.*.productId')
+    body('paymentMethod')
       .trim()
-      .isMongoId().withMessage('Invalid product ID in items'),
-    body('items.*.quantity')
-      .isInt({ min: 1 })
-      .withMessage('Item quantity must be at least 1'),
+      .notEmpty().withMessage('Payment method is required')
+      .isIn(['card', 'paypal', 'bank_transfer'])
+      .withMessage('Invalid payment method'),
     body('shippingAddress.street')
       .trim()
       .notEmpty().withMessage('Street is required')
@@ -59,11 +55,11 @@ const orderValidationRules = {
       .notEmpty().withMessage('State is required')
       .isLength({ min: 2, max: 100 })
       .withMessage('State must be between 2 and 100 characters'),
-    body('shippingAddress.zipCode')
+    body('shippingAddress.zip')
       .trim()
       .notEmpty().withMessage('Zip code is required')
-      .matches(/^\\d{5}(-\\d{4})?$/)
-      .withMessage('Invalid zip code format'),
+      .isLength({ min: 2, max: 20 })
+      .withMessage('Zip code must be between 2 and 20 characters'),
     body('shippingAddress.country')
       .trim()
       .notEmpty().withMessage('Country is required')
@@ -72,7 +68,7 @@ const orderValidationRules = {
   ],
 
   getOrderById: () => [
-    param('orderId')
+    param('id')
       .trim()
       .isMongoId().withMessage('Invalid order ID'),
   ],
@@ -112,7 +108,7 @@ const productValidationRules = {
   ],
 
   updateProduct: () => [
-    param('productId')
+    param('id')
       .trim()
       .isMongoId().withMessage('Invalid product ID'),
     body('name')
@@ -131,7 +127,7 @@ const productValidationRules = {
   ],
 
   getProductById: () => [
-    param('productId')
+    param('id')
       .trim()
       .isMongoId().withMessage('Invalid product ID'),
   ],
@@ -198,8 +194,8 @@ const validateRequest = (req, res, next) => {
     return res.status(400).json({
       success: false,
       message: 'Validation failed',
-      errors: errors.array().map(err => ({
-        field: err.param,
+      errors: errors.array().map((err) => ({
+        field: err.param || err.path,
         message: err.msg,
       })),
     });

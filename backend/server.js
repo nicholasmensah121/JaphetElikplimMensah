@@ -40,9 +40,9 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(securityHeaders);
 app.use(createRateLimit());
-app.use(csrfProtection); // SECURITY: CSRF protection on all routes
 app.use(express.json({ limit: '100kb' }));
 app.use(express.urlencoded({ extended: true }));
+app.use(csrfProtection);
 
 // Serve frontend assets from repo root in development
 const staticRoot = path.join(__dirname, '..');

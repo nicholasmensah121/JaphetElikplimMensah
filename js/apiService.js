@@ -23,6 +23,7 @@ class EnhancedAPIService {
   constructor(options = {}) {
     this.baseURL = API_BASE_URL;
     this.token = this.getStoredToken();
+    this.csrfToken = null;
     this.timeout = options.timeout || 15000;
     this.maxRetries = options.maxRetries || 3;
     this.retryDelay = options.retryDelay || 1000;
@@ -112,6 +113,23 @@ class EnhancedAPIService {
     sessionStorage.removeItem(FILE_PROTOCOL_TOKEN_KEY);
   }
 
+  async refreshCsrfToken() {
+    try {
+      const response = await fetch(`${this.baseURL}/health`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: { Accept: 'application/json' },
+      });
+
+      const token = response.headers.get('x-csrf-token');
+      if (token) {
+        this.csrfToken = token;
+      }
+    } catch (error) {
+      console.error('CSRF Token Refresh Error:', error);
+    }
+  }
+
   async request(endpoint, options = {}) {
     const url = `${this.baseURL}${endpoint}`;
     const cacheKey = this.getCacheKey(endpoint, options);
@@ -139,6 +157,15 @@ class EnhancedAPIService {
           ...options.headers,
         };
 
+        if (method !== 'GET' && !headers['X-CSRF-Token']) {
+          if (!this.csrfToken) {
+            await this.refreshCsrfToken();
+          }
+          if (this.csrfToken) {
+            headers['X-CSRF-Token'] = this.csrfToken;
+          }
+        }
+
         if (this.token) {
           headers.Authorization = `Bearer ${this.token}`;
         }
@@ -152,6 +179,11 @@ class EnhancedAPIService {
 
         clearTimeout(timeoutId);
 
+        const responseCsrfToken = response.headers.get('x-csrf-token');
+        if (responseCsrfToken) {
+          this.csrfToken = responseCsrfToken;
+        }
+
         const data = await response.json();
 
         if (loadingManager) {
@@ -159,6 +191,16 @@ class EnhancedAPIService {
         }
 
         if (!response.ok) {
+          if (
+            response.status === 403 &&
+            typeof data?.message === 'string' &&
+            data.message.toLowerCase().includes('csrf') &&
+            attempt < this.maxRetries
+          ) {
+            await this.refreshCsrfToken();
+            continue;
+          }
+
           if (response.status === 401) {
             this.handleUnauthorized();
             throw new Error(data.message || 'Unauthorized');
@@ -221,7 +263,7 @@ class EnhancedAPIService {
         throw new Error('Invalid email address');
       }
       if (!validator.isValidPassword(sanitized.password)) {
-        throw new Error('Password must be at least 8 characters with uppercase, lowercase, and numbers');
+        throw new Error('Password must be at least 8 characters and include uppercase, lowercase, a number, and a special character');
       }
       if (sanitized.password !== sanitized.confirmPassword) {
         throw new Error('Passwords do not match');

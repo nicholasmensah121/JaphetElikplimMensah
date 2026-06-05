@@ -398,6 +398,7 @@
                         <li id="req-uppercase">At least one uppercase letter (A-Z)</li>
                         <li id="req-lowercase">At least one lowercase letter (a-z)</li>
                         <li id="req-number">At least one number (0-9)</li>
+                        <li id="req-special">At least one special character (@$!%*?&-_#)</li>
                     </ul>
                 </div>
 
@@ -469,6 +470,7 @@
             uppercase: 'At least one uppercase letter (A-Z)',
             lowercase: 'At least one lowercase letter (a-z)',
             number: 'At least one number (0-9)',
+            special: 'At least one special character (@$!%*?&-_#)',
         };
 
         // Password validation requirements
@@ -477,6 +479,7 @@
             uppercase: (password) => /[A-Z]/.test(password),
             lowercase: (password) => /[a-z]/.test(password),
             number: (password) => /[0-9]/.test(password),
+            special: (password) => /[@$!%*?&\-_#]/.test(password),
         };
 
         // Update password requirements display
