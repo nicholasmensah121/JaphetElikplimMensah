@@ -48,6 +48,11 @@ app.use(csrfProtection);
 const staticRoot = path.join(__dirname, '..');
 app.use(express.static(staticRoot));
 
+// Redirect root to login page to simplify local testing
+app.get('/', (req, res) => {
+  res.sendFile(path.join(staticRoot, 'login.html'));
+});
+
 // API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);

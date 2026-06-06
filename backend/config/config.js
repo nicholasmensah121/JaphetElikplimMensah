@@ -24,8 +24,14 @@ if (!JWT_SECRET || JWT_SECRET.length < 32) {
 }
 
 // CORS Configuration
-// SECURITY: Removed 'null' origin which allows file:// protocol (security risk)
-const CORS_ORIGINS = (process.env.CORS_ORIGINS || 'http://localhost:3000,http://127.0.0.1:3000,http://localhost:5500,http://127.0.0.1:5500')
+const defaultOrigins = [
+  'http://localhost:3000',
+  'http://127.0.0.1:3000',
+  'http://localhost:5500',
+  'http://127.0.0.1:5500',
+];
+
+const CORS_ORIGINS = (process.env.CORS_ORIGINS || defaultOrigins.join(','))
   .split(',')
   .map((origin) => origin.trim())
   .filter(Boolean);

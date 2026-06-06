@@ -122,11 +122,15 @@ class EnhancedAPIService {
       });
 
       const token = response.headers.get('x-csrf-token');
-      if (token) {
+      if (response.ok && token) {
         this.csrfToken = token;
+        return token;
       }
+
+      throw new Error('Failed to refresh CSRF token from backend');
     } catch (error) {
       console.error('CSRF Token Refresh Error:', error);
+      throw error;
     }
   }
 
@@ -233,7 +237,7 @@ class EnhancedAPIService {
 
         if (isNetworkError && error.message === 'Failed to fetch') {
           throw new Error(
-            'Unable to reach the backend API. Start the backend server and open this page through a local web server instead of a file:// URL.'
+            'Unable to reach the backend API. Start the backend server and open this page through a local web server instead of a file:// URL, or use http://localhost:5000/login.html if the backend is running.'
           );
         }
 
