@@ -13,7 +13,8 @@ function resolveApiBaseUrl() {
     return 'http://localhost:5000/api';
   }
 
-  return `${window.location.protocol}//${window.location.hostname}:5000/api`;
+  const port = window.location.port ? `:${window.location.port}` : '';
+  return `${window.location.protocol}//${window.location.hostname}${port}/api`;
 }
 
 const API_BASE_URL = resolveApiBaseUrl();
@@ -254,6 +255,7 @@ class EnhancedAPIService {
 
   handleUnauthorized() {
     this.clearStoredToken();
+    storageManager.remove('user');
     // SECURITY: Don't store sensitive user data in localStorage (XSS vulnerability)
     this.notifyAuthChange(false, null);
     window.location.href = 'login.html';
@@ -333,6 +335,7 @@ class EnhancedAPIService {
       });
     } finally {
       this.clearStoredToken();
+      storageManager.remove('user');
     }
     // SECURITY: Don't store sensitive user data in localStorage
     this.clearCache();
