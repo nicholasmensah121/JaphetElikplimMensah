@@ -218,7 +218,7 @@ class EnhancedAPIService {
         lastError = error;
 
         const isTimeoutError = error.name === 'AbortError';
-        const isNetworkError = error instanceof TypeError;
+        const isNetworkError = error instanceof TypeError || error.message === 'Failed to fetch';
         const shouldRetry = (isTimeoutError || isNetworkError) && attempt < this.maxRetries;
 
         if (shouldRetry) {
@@ -229,6 +229,12 @@ class EnhancedAPIService {
 
         if (loadingManager) {
           loadingManager.hide();
+        }
+
+        if (isNetworkError && error.message === 'Failed to fetch') {
+          throw new Error(
+            'Unable to reach the backend API. Start the backend server and open this page through a local web server instead of a file:// URL.'
+          );
         }
 
         throw error;

@@ -474,6 +474,13 @@
                 emailInput.value = rememberedEmail;
                 rememberMeCheckbox.checked = true;
             }
+
+            if (window.location.protocol === 'file:') {
+                showMessage(
+                    'This page is opened from a file:// URL. Start the backend server and use a local web server (for example, python -m http.server or live-server) so the login page can reach the API.',
+                    'error'
+                );
+            }
         });
 
         // Form submission
