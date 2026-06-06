@@ -9,7 +9,7 @@ router.get('/', productValidationRules.searchProducts(), validateRequest, produc
 router.get('/:id', productValidationRules.getProductById(), validateRequest, productController.getProductById);
 
 // Protected routes
-router.post('/:id/reviews', authenticate, productController.addReview);
+router.post('/:id/reviews', authenticate, productValidationRules.addReview(), validateRequest, productController.addReview);
 
 // Admin routes
 router.post('/', authenticate, authorize('admin'), productValidationRules.createProduct(), validateRequest, productController.createProduct);

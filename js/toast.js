@@ -99,6 +99,7 @@ const toast = new Toast({
   duration: 4000
 });
 
+window.toast = toast;
 window.showToast = (message, type = 'info', duration = null) => {
   return toast.show(message, type, duration);
 };

@@ -648,6 +648,13 @@
         });
 
         window.addEventListener('load', async () => {
+            if (window.location.protocol === 'file:') {
+                showMessage(
+                    'This page is opened from a file:// URL. Start the backend server and use a local web server or open http://localhost:5000/register.html so the form can reach the API.',
+                    'error'
+                );
+            }
+
             if (!storageManager.get('user')) {
                 return;
             }

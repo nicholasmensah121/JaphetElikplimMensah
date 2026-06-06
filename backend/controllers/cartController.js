@@ -60,10 +60,17 @@ exports.addToCart = async (req, res, next) => {
 
     const productLookup = buildProductLookup({ productId, productSku, productName });
 
-    if (!productLookup || !quantity || quantity < 1) {
+    if (!productLookup) {
       return res.status(400).json({
         success: false,
-        message: 'Invalid product or quantity',
+        message: 'Please provide product ID, SKU, or name',
+      });
+    }
+
+    if (!quantity || quantity < 1) {
+      return res.status(400).json({
+        success: false,
+        message: 'Quantity must be at least 1',
       });
     }
 

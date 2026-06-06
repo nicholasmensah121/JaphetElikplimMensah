@@ -6,13 +6,28 @@ const { body, param, query, validationResult } = require('express-validator');
 const cartValidationRules = {
   addToCart: () => [
     body('productId')
+      .optional()
       .trim()
-      .notEmpty().withMessage('Product ID is required')
       .isMongoId().withMessage('Invalid product ID'),
+    body('productSku')
+      .optional()
+      .trim()
+      .matches(/^[A-Z0-9\-]+$/)
+      .withMessage('Invalid product SKU'),
+    body('productName')
+      .optional()
+      .trim()
+      .isLength({ min: 1, max: 255 })
+      .withMessage('Invalid product name'),
     body('quantity')
+      .notEmpty().withMessage('Quantity is required')
       .isInt({ min: 1, max: 999 })
-      .withMessage('Quantity must be a number between 1 and 999'),
-  ],
+      .withMessage('Quantity must be a number between 1 and 999'),    body().custom((body) => {
+      if (!body.productId && !body.productSku && !body.productName) {
+        throw new Error('Please provide productId, productSku, or productName');
+      }
+      return true;
+    }),  ],
 
   updateCartItem: () => [
     param('productId')
@@ -72,6 +87,25 @@ const orderValidationRules = {
       .trim()
       .isMongoId().withMessage('Invalid order ID'),
   ],
+
+  updateOrderStatus: () => [
+    param('id')
+      .trim()
+      .isMongoId().withMessage('Invalid order ID'),
+    body('orderStatus')
+      .optional()
+      .isIn(['pending', 'processing', 'shipped', 'delivered', 'cancelled'])
+      .withMessage('Invalid order status'),
+    body('paymentStatus')
+      .optional()
+      .isIn(['pending', 'completed', 'failed', 'cancelled'])
+      .withMessage('Invalid payment status'),
+    body('trackingNumber')
+      .optional({ checkFalsy: true })
+      .trim()
+      .isLength({ max: 100 })
+      .withMessage('Tracking number cannot exceed 100 characters'),
+  ],
 };
 
 /**
@@ -100,7 +134,7 @@ const productValidationRules = {
     body('sku')
       .trim()
       .notEmpty().withMessage('SKU is required')
-      .matches(/^[A-Z0-9\\-]+$/)
+      .matches(/^[A-Z0-9-]+$/)
       .withMessage('SKU must contain only uppercase letters, numbers, and hyphens'),
     body('stock')
       .isInt({ min: 0 })
@@ -130,6 +164,19 @@ const productValidationRules = {
     param('id')
       .trim()
       .isMongoId().withMessage('Invalid product ID'),
+  ],
+
+  addReview: () => [
+    param('id')
+      .trim()
+      .isMongoId().withMessage('Invalid product ID'),
+    body('rating')
+      .notEmpty().withMessage('Rating is required')
+      .isInt({ min: 1, max: 5 }).withMessage('Rating must be between 1 and 5'),
+    body('comment')
+      .optional({ checkFalsy: true })
+      .trim()
+      .isLength({ max: 1000 }).withMessage('Comment cannot exceed 1000 characters'),
   ],
 
   searchProducts: () => [

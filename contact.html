@@ -281,6 +281,10 @@
                 }
             }
 
+            if (window.location.protocol === 'file:') {
+                toast.error('This page is opened from a file:// URL. Start the backend server and open this page via a local web server or http://localhost:5000/contact.html so the contact form can reach the API.');
+            }
+
             // Smooth scrolling for anchor links
             document.querySelectorAll('a[href^="#"]').forEach(a => {
                 a.addEventListener('click', (e) => {

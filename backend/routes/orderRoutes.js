@@ -8,7 +8,7 @@ const { orderValidationRules, validateRequest } = require('../middleware/validat
 router.post('/', authenticate, orderValidationRules.createOrder(), validateRequest, orderController.createOrder);
 router.get('/', authenticate, orderController.getUserOrders);
 router.get('/:id', authenticate, orderValidationRules.getOrderById(), validateRequest, orderController.getOrderById);
-router.put('/:id/status', authenticate, authorize('admin'), orderController.updateOrderStatus);
-router.put('/:id/cancel', authenticate, orderController.cancelOrder);
+router.put('/:id/status', authenticate, authorize('admin'), orderValidationRules.updateOrderStatus(), validateRequest, orderController.updateOrderStatus);
+router.put('/:id/cancel', authenticate, orderValidationRules.getOrderById(), validateRequest, orderController.cancelOrder);
 
 module.exports = router;
