@@ -5,21 +5,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     return;
   }
 
-  let user = null;
+  let user = storageManager.get('user');
 
-  try {
-    // SECURITY: Fetch user from server instead of localStorage to prevent XSS attacks
-    if (apiService && apiService.hasStoredToken()) {
-      try {
-        const profile = await apiService.getProfile();
-        user = profile.user;
-      } catch (error) {
-        console.warn('Failed to fetch user profile:', error);
-        user = null;
+  if (!user && apiService && apiService.hasStoredToken()) {
+    try {
+      const profile = await apiService.getProfile();
+      user = profile.user;
+      if (user) {
+        storageManager.set('user', user);
       }
+    } catch (error) {
+      console.warn('Failed to fetch user profile:', error);
+      user = null;
     }
-  } catch (error) {
-    user = null;
   }
 
   const firstName = user?.firstName?.trim();

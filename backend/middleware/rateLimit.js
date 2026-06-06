@@ -26,6 +26,10 @@ const createRateLimit = ({
   message = 'Too many requests. Please try again later.',
 } = {}) => {
   return (req, res, next) => {
+    if (!config.RATE_LIMIT_ENABLED) {
+      return next();
+    }
+
     const now = Date.now();
     cleanupExpiredEntries(now);
 

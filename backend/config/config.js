@@ -48,6 +48,9 @@ const RATE_LIMIT_WINDOW_MS = parseInt(process.env.RATE_LIMIT_WINDOW_MS || '90000
 const RATE_LIMIT_MAX_REQUESTS = parseInt(process.env.RATE_LIMIT_MAX_REQUESTS || '100', 10);
 const AUTH_RATE_LIMIT_MAX_REQUESTS = parseInt(process.env.AUTH_RATE_LIMIT_MAX_REQUESTS || '10', 10);
 const CONTACT_RATE_LIMIT_MAX_REQUESTS = parseInt(process.env.CONTACT_RATE_LIMIT_MAX_REQUESTS || '5', 10);
+const RATE_LIMIT_ENABLED = process.env.RATE_LIMIT_ENABLED
+  ? process.env.RATE_LIMIT_ENABLED.toLowerCase() === 'true'
+  : IS_PRODUCTION;
 
 // Stripe Configuration
 const STRIPE_API_KEY = process.env.STRIPE_API_KEY;

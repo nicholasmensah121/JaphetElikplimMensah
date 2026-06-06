@@ -655,15 +655,11 @@
                 );
             }
 
-            if (!storageManager.get('user')) {
-                return;
-            }
+            const hasUser = !!storageManager.get('user');
+            const hasToken = apiService.hasStoredToken?.();
 
-            try {
-                await apiService.getProfile();
+            if (hasUser && hasToken) {
                 window.location.href = 'user.html';
-            } catch (error) {
-                storageManager.remove('user');
             }
         });
     </script>

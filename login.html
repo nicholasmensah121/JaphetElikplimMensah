@@ -538,21 +538,13 @@
             }
         });
 
-        // Check if user already has a valid session
-        window.addEventListener('load', async () => {
+        // Check if a valid session already exists and avoid a repeated profile request.
+        window.addEventListener('load', () => {
             const hasUser = !!storageManager.get('user');
             const hasToken = apiService.hasStoredToken?.();
 
-            if (!hasUser && !hasToken) {
-                return;
-            }
-
-            try {
-                await apiService.getProfile();
+            if (hasUser && hasToken) {
                 window.location.href = 'user.html';
-            } catch (error) {
-                storageManager.remove('user');
-                apiService.clearStoredToken();
             }
         });
 
