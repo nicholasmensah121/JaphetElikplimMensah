@@ -7,6 +7,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   let user = storageManager.get('user');
 
+  if (user && apiService && !apiService.hasStoredToken()) {
+    // If a user object is cached but no auth token is present, clear stale state.
+    storageManager.remove('user');
+    user = null;
+  }
+
   if (!user && apiService && apiService.hasStoredToken()) {
     try {
       const profile = await apiService.getProfile();
@@ -47,5 +53,21 @@ document.addEventListener('DOMContentLoaded', async () => {
         navList.appendChild(adminItem);
       }
     }
+  }
+
+  // Subscribe to auth changes so the nav updates live when login/logout/profile change
+  if (window.apiService && typeof apiService.onAuthChange === 'function') {
+    apiService.onAuthChange(({ isAuthenticated, user }) => {
+      const displayName = isAuthenticated && user
+        ? (user.firstName || user.lastName) ? `Hi, ${[user.firstName, user.lastName].filter(Boolean)[0]}` : 'Account'
+        : 'Account';
+
+      accountLinks.forEach((link) => { link.textContent = displayName; });
+
+      if (!isAuthenticated) {
+        // Ensure local cache cleared
+        try { storageManager.remove('user'); } catch (e) { /* ignore */ }
+      }
+    });
   }
 });

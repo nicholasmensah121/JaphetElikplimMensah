@@ -86,7 +86,7 @@ class EnhancedAPIService {
       return storageManager.get(FILE_PROTOCOL_TOKEN_KEY);
     }
 
-    return sessionStorage.getItem(FILE_PROTOCOL_TOKEN_KEY);
+    return localStorage.getItem(FILE_PROTOCOL_TOKEN_KEY) || sessionStorage.getItem(FILE_PROTOCOL_TOKEN_KEY);
   }
 
   hasStoredToken() {
@@ -94,7 +94,7 @@ class EnhancedAPIService {
       return !!storageManager.get(FILE_PROTOCOL_TOKEN_KEY);
     }
 
-    return !!sessionStorage.getItem(FILE_PROTOCOL_TOKEN_KEY);
+    return !!localStorage.getItem(FILE_PROTOCOL_TOKEN_KEY) || !!sessionStorage.getItem(FILE_PROTOCOL_TOKEN_KEY);
   }
 
   persistToken(token) {
@@ -105,12 +105,14 @@ class EnhancedAPIService {
       return;
     }
 
+    localStorage.setItem(FILE_PROTOCOL_TOKEN_KEY, token);
     sessionStorage.setItem(FILE_PROTOCOL_TOKEN_KEY, token);
   }
 
   clearStoredToken() {
     this.token = null;
     storageManager.remove(FILE_PROTOCOL_TOKEN_KEY);
+    localStorage.removeItem(FILE_PROTOCOL_TOKEN_KEY);
     sessionStorage.removeItem(FILE_PROTOCOL_TOKEN_KEY);
   }
 

@@ -593,9 +593,45 @@
         const navCartCount = document.getElementById('navCartCount');
         const cartStatus = document.getElementById('cartStatus');
         const cartList = document.getElementById('cartList');
+        console.log('user.html script: starting - elements resolved', { notAuthenticatedSection: !!notAuthenticatedSection, authenticatedSection: !!authenticatedSection, cartList: !!cartList });
         let cartRefreshInterval = null;
         let currentUser = null;
         let dashboardData = null;
+
+        // Listen for auth changes from apiService so UI updates when backend user data changes
+        if (window.apiService && typeof apiService.onAuthChange === 'function') {
+            apiService.onAuthChange(async ({ isAuthenticated, user }) => {
+                try {
+                    if (isAuthenticated && user) {
+                        currentUser = user;
+                        storageManager.set('user', user);
+                        // Update account links in nav
+                        document.querySelectorAll('[data-account-link]').forEach(link => {
+                            const firstName = user?.firstName?.trim();
+                            const lastName = user?.lastName?.trim();
+                            const displayName = firstName || lastName ? `Hi, ${[firstName, lastName].filter(Boolean)[0]}` : 'Account';
+                            link.textContent = displayName;
+                        });
+
+                        // Refresh visible UI sections
+                        await loadUserProfile();
+                        await loadUserCart();
+                        if (document.getElementById('dashboardSection') && !document.getElementById('dashboardSection').classList.contains('hidden')) {
+                            await loadDashboard();
+                        }
+                    } else {
+                        // Logged out or unauthenticated — clear client state
+                        currentUser = null;
+                        storageManager.remove('user');
+                        document.querySelectorAll('[data-account-link]').forEach(link => link.textContent = 'Account');
+                        notAuthenticatedSection.style.display = 'block';
+                        authenticatedSection.style.display = 'none';
+                    }
+                } catch (e) {
+                    console.error('Error applying auth change to UI:', e);
+                }
+            });
+        }
 
         function showMessage(elementId, message, type) {
             const messageDiv = document.getElementById(elementId);
@@ -617,9 +653,15 @@
         }
 
         async function checkAuthentication() {
+            console.log('checkAuthentication: start');
             const hasUser = !!storageManager.get('user');
             const hasToken = typeof apiService.hasStoredToken === 'function' ? apiService.hasStoredToken() : false;
             let isAuthenticated = false;
+
+            if (hasUser && !hasToken) {
+                console.warn('Stale cached user found without auth token; clearing local user cache.');
+                storageManager.remove('user');
+            }
 
             if (hasUser || hasToken) {
                 try {
@@ -635,6 +677,8 @@
 
             notAuthenticatedSection.style.display = isAuthenticated ? 'none' : 'block';
             authenticatedSection.style.display = isAuthenticated ? 'grid' : 'none';
+
+            console.log('checkAuthentication: result', { isAuthenticated });
 
             return isAuthenticated;
         }
@@ -954,6 +998,7 @@
 
         async function loadUserCart() {
             try {
+                console.log('loadUserCart: requesting cart');
                 const response = await apiService.getCart();
                 const cart = response?.cart || { items: [], totalItems: 0, totalPrice: 0 };
                 const totalItems = cart.totalItems ?? 0;
@@ -1078,6 +1123,7 @@
         }
 
         function showSection(section) {
+            console.log('showSection:', section);
             document.querySelectorAll('.menu-btn').forEach(button => {
                 button.classList.toggle('active', button.dataset.section === section);
             });
@@ -1150,8 +1196,15 @@
                     phone: document.getElementById('phone').value.trim(),
                 });
 
+                // Refresh profile and other UI to reflect backend state
                 storageManager.set('user', response.user);
+                await loadUserProfile();
                 showMessage('profileMessage', 'Profile updated successfully!', 'success');
+                // Also refresh dashboard and other dependent sections
+                try { await loadDashboard(); } catch (_) {}
+                renderPaymentMethods();
+                renderMeasurements();
+                renderStylePreferences();
             } catch (error) {
                 showMessage('profileMessage', error.message || 'Error updating profile', 'error');
             }
@@ -1171,8 +1224,11 @@
                     },
                 });
 
+                // Refresh profile and UI after address update
                 storageManager.set('user', response.user);
+                await loadUserProfile();
                 showMessage('addressMessage', 'Address saved successfully!', 'success');
+                renderPaymentMethods();
             } catch (error) {
                 showMessage('addressMessage', error.message || 'Error saving address', 'error');
             }
