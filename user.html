@@ -20,18 +20,290 @@
             padding: 40px 20px;
         }
 
+        .user-account-page {
+            display: grid;
+            gap: 30px;
+        }
+
+        .account-header {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 24px;
+            align-items: center;
+            padding: 30px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, #f9f5ee, #f2ebe0);
+            border: 1px solid rgba(212, 175, 55, 0.18);
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.06);
+        }
+
+        .account-header h2 {
+            margin: 0 0 10px;
+            font-size: 2.5rem;
+            color: #1f2b43;
+            letter-spacing: 0.5px;
+        }
+
+        .subtitle {
+            margin: 0 0 10px;
+            color: #8b7355;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .account-header p {
+            margin: 0;
+            color: #555;
+            line-height: 1.6;
+            max-width: 720px;
+        }
+
+        .account-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .account-actions .btn {
+            min-width: 140px;
+        }
+
         .user-section {
             display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 40px;
+            grid-template-columns: 280px 1fr;
+            gap: 30px;
             margin-bottom: 40px;
         }
 
         .user-sidebar {
-            background: #f5f5f5;
+            background: #1f2b43;
             padding: 30px;
+            border-radius: 18px;
+            color: #f5f5f5;
+            position: sticky;
+            top: calc(var(--header-height) + 30px);
+            align-self: start;
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 18px;
+        }
+
+        .sidebar-profile {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .sidebar-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #d4af37, #b39532);
+            color: #102133;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+        }
+
+        .sidebar-welcome {
+            margin: 0;
+            color: #fff;
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .sidebar-role {
+            margin: 4px 0 0;
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 0.82rem;
+        }
+
+        .sidebar-toggle-btn {
+            display: none;
+            padding: 10px 14px;
+            border: none;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.14);
+            color: #fff;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .sidebar-menu-wrap {
+            transition: max-height 0.3s ease, opacity 0.3s ease;
+        }
+
+        .user-sidebar.open .sidebar-menu-wrap {
+            max-height: 2000px;
+            opacity: 1;
+        }
+
+        .user-sidebar.closed .sidebar-menu-wrap {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+
+        .user-sidebar h3 {
+            color: #fff;
+            margin-bottom: 18px;
+        }
+
+        .menu-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            margin-right: 12px;
             border-radius: 8px;
-            height: fit-content;
+            background: rgba(255, 255, 255, 0.12);
+            color: #fff;
+            font-size: 0.95rem;
+        }
+
+        .user-menu button {
+            width: 100%;
+            padding: 14px 18px;
+            border: none;
+            background: rgba(255, 255, 255, 0.08);
+            color: #f5f5f5;
+            text-align: left;
+            cursor: pointer;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+            margin-bottom: 10px;
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-menu button:hover,
+        .user-menu button.active {
+            background: rgba(255, 255, 255, 0.16);
+            border-left-color: #d4af37;
+            font-weight: 600;
+        }
+
+        .user-content {
+            background: #ffffff;
+            padding: 32px;
+            border-radius: 18px;
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.12);
+        }
+
+        .user-content.hidden {
+            display: none;
+        }
+
+        .dashboard-card {
+            background: #fff9ef;
+            border: 1px solid rgba(212, 175, 55, 0.14);
+            padding: 28px;
+            border-radius: 18px;
+            min-height: 150px;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
+        }
+
+        .dashboard-card h3 {
+            margin-top: 0;
+            font-size: 1.1rem;
+            color: #8b7355;
+        }
+
+        .dashboard-card p {
+            margin: 14px 0 0;
+            color: #4f4f4f;
+            line-height: 1.7;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .cart-card {
+            border: none;
+            background: #fcfaf6;
+        }
+
+        .cart-item {
+            padding: 20px 0;
+        }
+
+        .cart-item + .cart-item {
+            border-top: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .cart-item-actions button,
+        .cart-summary button {
+            min-width: auto;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #d4af37 0%, #b39636 100%);
+            color: #102133;
+        }
+
+        .btn-secondary {
+            background: rgba(31, 43, 67, 0.08);
+            color: #1f2b43;
+        }
+
+        .btn-danger {
+            background: #c82333;
+            color: #fff;
+        }
+
+        .empty-state {
+            background: #fff7ea;
+            border: 1px dashed rgba(212, 175, 55, 0.35);
+            border-radius: 14px;
+            padding: 28px;
+        }
+
+        .user-account-quickstats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 24px;
+        }
+
+        .quickstat-card {
+            background: #fffaf2;
+            border-radius: 16px;
+            border: 1px solid rgba(212, 175, 55, 0.14);
+            padding: 22px;
+            min-height: 120px;
+        }
+
+        .quickstat-card strong {
+            display: block;
+            font-size: 1.55rem;
+            margin-bottom: 8px;
+            color: #1f2b43;
+        }
+
+        .quickstat-card span {
+            color: #6b6b6b;
+            font-size: 0.95rem;
         }
 
         .user-menu {
@@ -46,22 +318,26 @@
 
         .user-menu button {
             width: 100%;
-            padding: 12px 20px;
+            padding: 14px 18px;
             border: none;
-            background: transparent;
+            background: rgba(255, 255, 255, 0.08);
+            color: #f5f5f5;
             text-align: left;
             cursor: pointer;
-            font-size: 16px;
-            color: #333;
+            font-size: 15px;
             transition: all 0.3s ease;
             border-left: 4px solid transparent;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
         }
 
         .user-menu button:hover,
         .user-menu button.active {
-            background: #e0e0e0;
-            border-left-color: #8B7355;
+            background: rgba(255, 255, 255, 0.16);
+            border-left-color: #d4af37;
             font-weight: 600;
         }
 
@@ -336,11 +612,43 @@
             border: 1px solid #f5c6cb;
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 980px) {
+            .account-header {
+                grid-template-columns: 1fr;
+            }
+
             .user-section {
                 grid-template-columns: 1fr;
             }
 
+            .user-sidebar {
+                position: static;
+                top: auto;
+                width: 100%;
+                padding: 20px;
+            }
+
+            .sidebar-toggle-btn {
+                display: inline-flex;
+            }
+
+            .user-sidebar.closed .sidebar-menu-wrap {
+                max-height: 0;
+                opacity: 0;
+                overflow: hidden;
+            }
+
+            .user-sidebar.open .sidebar-menu-wrap {
+                max-height: 2000px;
+                opacity: 1;
+            }
+
+            .user-menu button {
+                padding: 14px 16px;
+            }
+        }
+
+        @media (max-width: 768px) {
             .form-row {
                 grid-template-columns: 1fr;
             }
@@ -382,35 +690,86 @@
         </div>
 
         <!-- Authenticated User Section -->
-        <div id="authenticatedSection" class="user-section hidden">
-            <!-- Sidebar Menu -->
-            <div class="user-sidebar">
-                <h3>Account Menu</h3>
-                <ul class="user-menu">
-                    <li><button class="menu-btn active" data-section="dashboard">Dashboard</button></li>
-                    <li><button class="menu-btn" data-section="profile">My Profile</button></li>
-                    <li><button class="menu-btn" data-section="cart">My Cart</button></li>
-                    <li><button class="menu-btn" data-section="orders">Order History</button></li>
-                    <li><button class="menu-btn" data-section="wishlist">Wishlist</button></li>
-                    <li><button class="menu-btn" data-section="addresses">Addresses</button></li>
-                    <li><button class="menu-btn" data-section="payment">Payment Methods</button></li>
-                    <li><button class="menu-btn" data-section="measurements">Measurements</button></li>
-                    <li><button class="menu-btn" data-section="preferences">Style Preferences</button></li>
-                    <li><button class="menu-btn" data-section="loyalty">Loyalty & Rewards</button></li>
-                    <li><button class="menu-btn" data-section="settings">Account Settings</button></li>
-                    <li class="profile-menu-divider">
-                        <button class="menu-btn" id="logoutBtn">Logout</button>
-                    </li>
-                </ul>
+        <div id="authenticatedSection" class="user-account-page hidden">
+            <div class="account-header">
+                <div>
+                    <p class="subtitle">Welcome back</p>
+                    <h2>Manage your account</h2>
+                    <p>Control your profile, cart, orders, addresses, payment methods, and loyalty rewards from one polished dashboard.</p>
+                </div>
+                <div class="account-actions">
+                    <button class="btn btn-secondary" onclick="showSection('dashboard')">Dashboard</button>
+                    <button class="btn btn-primary" onclick="showSection('orders')">Order History</button>
+                </div>
             </div>
+            <div class="user-section">
+                <!-- Sidebar Menu -->
+                <div class="user-sidebar open">
+                    <div class="sidebar-header">
+                        <div class="sidebar-profile">
+                            <div class="sidebar-avatar" id="sidebarAvatar">GP</div>
+                            <div>
+                                <p class="sidebar-welcome">Hello, <span id="sidebarUserName">Gentleman</span></p>
+                                <p class="sidebar-role">Style member</p>
+                            </div>
+                        </div>
+                        <button id="sidebarToggle" class="sidebar-toggle-btn" aria-expanded="true" aria-label="Toggle account menu">☰</button>
+                    </div>
+                    <h3>Account Menu</h3>
+                    <div class="sidebar-menu-wrap">
+                        <ul class="user-menu">
+                            <li><button class="menu-btn active" data-section="dashboard"><span class="menu-icon">🏠</span>Dashboard</button></li>
+                            <li><button class="menu-btn" data-section="profile"><span class="menu-icon">👤</span>My Profile</button></li>
+                            <li><button class="menu-btn" data-section="cart"><span class="menu-icon">🛒</span>My Cart</button></li>
+                            <li><button class="menu-btn" data-section="orders"><span class="menu-icon">📦</span>Order History</button></li>
+                            <li><button class="menu-btn" data-section="wishlist"><span class="menu-icon">❤️</span>Wishlist</button></li>
+                            <li><button class="menu-btn" data-section="addresses"><span class="menu-icon">📍</span>Addresses</button></li>
+                            <li><button class="menu-btn" data-section="payment"><span class="menu-icon">💳</span>Payment Methods</button></li>
+                            <li><button class="menu-btn" data-section="measurements"><span class="menu-icon">📏</span>Measurements</button></li>
+                            <li><button class="menu-btn" data-section="preferences"><span class="menu-icon">🎨</span>Style Preferences</button></li>
+                            <li><button class="menu-btn" data-section="loyalty"><span class="menu-icon">🏅</span>Loyalty & Rewards</button></li>
+                            <li><button class="menu-btn" data-section="settings"><span class="menu-icon">⚙️</span>Account Settings</button></li>
+                            <li class="profile-menu-divider">
+                                <button class="menu-btn" id="logoutBtn"><span class="menu-icon">🚪</span>Logout</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
 
             <!-- Main Content Area -->
             <div>
                 <!-- Dashboard Section -->
                 <div id="dashboardSection" class="user-content">
-                    <h2>Welcome Back</h2>
+                    <div class="account-header" style="padding: 24px 24px 20px; border-radius: 16px; background: #fff8f0; margin-bottom: 24px; box-shadow: inset 0 0 0 1px rgba(212,175,55,0.12);">
+                        <div>
+                            <p class="subtitle">Dashboard summary</p>
+                            <h2 style="margin: 0; font-size: 2rem;">Your account overview</h2>
+                        </div>
+                        <div class="account-actions" style="justify-content:flex-start; gap:10px;">
+                            <button class="btn btn-secondary" onclick="showSection('profile')">Edit Profile</button>
+                            <button class="btn btn-secondary" onclick="showSection('cart')">View Cart</button>
+                        </div>
+                    </div>
                     <div id="dashboardMessage"></div>
                     <p id="dashboardGreeting" class="secondary-text">Your latest wardrobe overview is loading.</p>
+                    <div class="user-account-quickstats">
+                        <div class="quickstat-card">
+                            <strong class="quickstat-value">Member</strong>
+                            <span>Current tier and reward status</span>
+                        </div>
+                        <div class="quickstat-card">
+                            <strong class="quickstat-value">0 orders</strong>
+                            <span>Recent order activity and delivery updates</span>
+                        </div>
+                        <div class="quickstat-card">
+                            <strong class="quickstat-value">0 saved</strong>
+                            <span>Items saved for your next style refresh</span>
+                        </div>
+                        <div class="quickstat-card">
+                            <strong class="quickstat-value">0% to next tier</strong>
+                            <span>Loyalty progress toward exclusive rewards</span>
+                        </div>
+                    </div>
                     <div class="dashboard-grid">
                         <div class="dashboard-card">
                             <h3>Current Status</h3>
@@ -624,8 +983,8 @@
                         currentUser = null;
                         storageManager.remove('user');
                         document.querySelectorAll('[data-account-link]').forEach(link => link.textContent = 'Account');
-                        notAuthenticatedSection.style.display = 'block';
-                        authenticatedSection.style.display = 'none';
+                        notAuthenticatedSection.classList.remove('hidden');
+                        authenticatedSection.classList.add('hidden');
                     }
                 } catch (e) {
                     console.error('Error applying auth change to UI:', e);
@@ -675,8 +1034,13 @@
                 }
             }
 
-            notAuthenticatedSection.style.display = isAuthenticated ? 'none' : 'block';
-            authenticatedSection.style.display = isAuthenticated ? 'grid' : 'none';
+            if (isAuthenticated) {
+                notAuthenticatedSection.classList.add('hidden');
+                authenticatedSection.classList.remove('hidden');
+            } else {
+                notAuthenticatedSection.classList.remove('hidden');
+                authenticatedSection.classList.add('hidden');
+            }
 
             console.log('checkAuthentication: result', { isAuthenticated });
 
@@ -1068,9 +1432,28 @@
 
                 currentUser = user;
                 storageManager.set('user', user);
+                renderSidebarProfile(user);
             } catch (error) {
                 console.error('Error loading profile:', error);
                 showMessage('profileMessage', 'Error loading profile information', 'error');
+            }
+        }
+
+        function renderSidebarProfile(user) {
+            const name = `${user.firstName || 'Guest'} ${user.lastName || ''}`.trim();
+            const initials = `${user.firstName ? user.firstName[0] : 'G'}${user.lastName ? user.lastName[0] : 'P'}`.toUpperCase();
+            const avatar = document.getElementById('sidebarAvatar');
+            const userName = document.getElementById('sidebarUserName');
+            const role = document.querySelector('.sidebar-role');
+
+            if (avatar) {
+                avatar.textContent = initials;
+            }
+            if (userName) {
+                userName.textContent = name || 'Valued Guest';
+            }
+            if (role) {
+                role.textContent = user.membershipTier || 'Style member';
             }
         }
 
@@ -1174,6 +1557,16 @@
                     renderLoyalty();
                 }
             }
+
+            const sidebar = document.querySelector('.user-sidebar');
+            const toggleButton = document.getElementById('sidebarToggle');
+            if (sidebar && window.matchMedia('(max-width: 980px)').matches) {
+                sidebar.classList.remove('open');
+                sidebar.classList.add('closed');
+                if (toggleButton) {
+                    toggleButton.setAttribute('aria-expanded', 'false');
+                }
+            }
         }
 
         document.querySelectorAll('.menu-btn').forEach(button => {
@@ -1245,6 +1638,18 @@
             checkAuthentication();
             window.location.href = 'index.html';
         });
+
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        if (sidebarToggle) {
+            sidebarToggle.addEventListener('click', () => {
+                const sidebar = document.querySelector('.user-sidebar');
+                if (!sidebar) return;
+                const isOpen = sidebar.classList.contains('open');
+                sidebar.classList.toggle('open', !isOpen);
+                sidebar.classList.toggle('closed', isOpen);
+                sidebarToggle.setAttribute('aria-expanded', String(!isOpen));
+            });
+        }
 
         document.getElementById('deleteAccountBtn').addEventListener('click', () => {
             if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
