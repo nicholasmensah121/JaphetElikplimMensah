@@ -409,6 +409,7 @@
                 <!-- Dashboard Section -->
                 <div id="dashboardSection" class="user-content">
                     <h2>Welcome Back</h2>
+                    <div id="dashboardMessage"></div>
                     <p id="dashboardGreeting" class="secondary-text">Your latest wardrobe overview is loading.</p>
                     <div class="dashboard-grid">
                         <div class="dashboard-card">
@@ -647,20 +648,42 @@
             cartList.replaceChildren(emptyState);
         }
 
+        function setDashboardMessage(message, type = 'error') {
+            const dashboardMessage = document.getElementById('dashboardMessage');
+            if (!dashboardMessage) return;
+            dashboardMessage.innerHTML = `<div class="${type === 'error' ? 'error-message' : 'success-message'}">${message}</div>`;
+        }
+
+        function clearDashboardMessage() {
+            const dashboardMessage = document.getElementById('dashboardMessage');
+            if (!dashboardMessage) return;
+            dashboardMessage.innerHTML = '';
+        }
+
         function renderDashboard(data) {
-            document.getElementById('dashboardGreeting').textContent = data.greeting;
-            document.getElementById('dashboardMembership').textContent = `${data.membershipTier} • ${data.loyaltyPoints} points`;
-            document.getElementById('dashboardOrders').textContent = `${data.totalOrders} order${data.totalOrders === 1 ? '' : 's'} placed`;
-            document.getElementById('dashboardWishlist').textContent = `${data.wishlistCount} saved item${data.wishlistCount === 1 ? '' : 's'} in wishlist`;
-            document.getElementById('dashboardProgressBar').style.width = `${data.progress}%`;
-            document.getElementById('dashboardProgressText').textContent = `${data.progress}% toward your next tier`;
+            if (!data) {
+                setDashboardMessage('Unable to load your dashboard at this time. Please try again or refresh the page.');
+                const greetingElement = document.getElementById('dashboardGreeting');
+                if (greetingElement) {
+                    greetingElement.textContent = 'Dashboard unavailable';
+                }
+                return;
+            }
+
+            clearDashboardMessage();
+            document.getElementById('dashboardGreeting').textContent = data.greeting || 'Welcome back';
+            document.getElementById('dashboardMembership').textContent = `${data.membershipTier || 'Member'} • ${data.loyaltyPoints ?? 0} points`;
+            document.getElementById('dashboardOrders').textContent = `${data.totalOrders ?? 0} order${data.totalOrders === 1 ? '' : 's'} placed`;
+            document.getElementById('dashboardWishlist').textContent = `${data.wishlistCount ?? 0} saved item${data.wishlistCount === 1 ? '' : 's'} in wishlist`;
+            document.getElementById('dashboardProgressBar').style.width = `${data.progress ?? 0}%`;
+            document.getElementById('dashboardProgressText').textContent = `${data.progress ?? 0}% toward your next tier`;
 
             const activityContainer = document.getElementById('dashboardActivity');
             if (activityContainer) {
                 activityContainer.innerHTML = '';
                 const list = document.createElement('ul');
                 list.className = 'detail-list';
-                data.recentActivity.forEach((item) => {
+                (data.recentActivity || []).forEach((item) => {
                     const listItem = document.createElement('li');
                     listItem.textContent = item;
                     list.appendChild(listItem);
@@ -676,9 +699,10 @@
                 renderDashboard(dashboardData);
             } catch (error) {
                 console.error('Error loading dashboard:', error);
+                setDashboardMessage('Unable to load your dashboard. Please check your connection and try again.');
                 const greetingElement = document.getElementById('dashboardGreeting');
                 if (greetingElement) {
-                    greetingElement.textContent = 'Unable to load your dashboard. Please refresh the page.';
+                    greetingElement.textContent = 'Unable to load dashboard';
                 }
             }
         }
@@ -698,10 +722,11 @@
             list.className = 'detail-list';
 
             orders.forEach(order => {
+                const itemCount = Array.isArray(order.items) ? order.items.length : 0;
                 const listItem = document.createElement('li');
                 listItem.innerHTML = `
                     <strong>Order #${String(order._id).slice(-6)}</strong><br />
-                    ${new Date(order.createdAt).toLocaleDateString()} • ${order.orderStatus} • ${order.items.length} item${order.items.length === 1 ? '' : 's'}
+                    ${new Date(order.createdAt || Date.now()).toLocaleDateString()} • ${order.orderStatus || 'Pending'} • ${itemCount} item${itemCount === 1 ? '' : 's'}
                 `;
                 list.appendChild(listItem);
             });
@@ -749,7 +774,7 @@
         async function loadWishlist() {
             try {
                 const response = await apiService.getProfile();
-                const wishlist = response.user.wishlist || [];
+                const wishlist = response?.user?.wishlist || [];
                 renderWishlist(wishlist);
             } catch (error) {
                 console.error('Error loading wishlist:', error);
@@ -930,8 +955,8 @@
         async function loadUserCart() {
             try {
                 const response = await apiService.getCart();
-                const cart = response.cart;
-                const totalItems = cart.totalItems || 0;
+                const cart = response?.cart || { items: [], totalItems: 0, totalPrice: 0 };
+                const totalItems = cart.totalItems ?? 0;
 
                 if (navCartCount) {
                     navCartCount.textContent = `(${totalItems})`;
