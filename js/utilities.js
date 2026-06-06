@@ -178,7 +178,8 @@ class LoadingManager {
     this.loadingCount++;
     const spinner = document.getElementById('loadingSpinner');
     if (spinner) {
-      spinner.style.display = 'flex';
+      // Use class toggle so CSS rules (including !important) control visibility
+      spinner.classList.remove('hidden');
     }
   }
 
@@ -187,7 +188,7 @@ class LoadingManager {
     if (this.loadingCount === 0) {
       const spinner = document.getElementById('loadingSpinner');
       if (spinner) {
-        spinner.style.display = 'none';
+        spinner.classList.add('hidden');
       }
     }
   }
@@ -196,7 +197,7 @@ class LoadingManager {
     this.loadingCount = 0;
     const spinner = document.getElementById('loadingSpinner');
     if (spinner) {
-      spinner.style.display = 'none';
+      spinner.classList.add('hidden');
     }
   }
 }
