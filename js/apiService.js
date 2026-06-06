@@ -343,6 +343,15 @@ class EnhancedAPIService {
     return this.request('/auth/profile');
   }
 
+  async getDashboard() {
+    try {
+      return this.request('/dashboard');
+    } catch (error) {
+      console.error('Get Dashboard Error:', error);
+      throw error;
+    }
+  }
+
   async updateProfile(userData) {
     try {
       const sanitized = sanitizer.sanitizeFormData(userData);
