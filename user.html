@@ -17,7 +17,7 @@
             flex: 1;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: calc(var(--header-height, 80px) + 20px) 20px 40px;
         }
 
         .user-account-page {
@@ -124,8 +124,16 @@
             font-weight: 600;
         }
 
-        .sidebar-role {
+        .sidebar-phone {
             margin: 4px 0 0;
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 0.82rem;
+            line-height: 1.4;
+            word-break: break-word;
+        }
+
+        .sidebar-role {
+            margin: 6px 0 0;
             color: rgba(255, 255, 255, 0.75);
             font-size: 0.82rem;
         }
@@ -710,6 +718,7 @@
                             <div class="sidebar-avatar" id="sidebarAvatar">GP</div>
                             <div>
                                 <p class="sidebar-welcome">Hello, <span id="sidebarUserName">Gentleman</span></p>
+                                <p class="sidebar-phone" id="sidebarUserPhone">No phone number provided</p>
                                 <p class="sidebar-role">Style member</p>
                             </div>
                         </div>
@@ -1454,6 +1463,14 @@
             }
             if (role) {
                 role.textContent = user.membershipTier || 'Style member';
+            }
+            const phoneElement = document.getElementById('sidebarUserPhone');
+            if (phoneElement) {
+                if (user.phone) {
+                    phoneElement.textContent = user.phone;
+                } else {
+                    phoneElement.textContent = 'No phone number provided';
+                }
             }
         }
 

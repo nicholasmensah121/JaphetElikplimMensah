@@ -40,6 +40,7 @@ const buildAuthResponse = (user, token, message) => ({
     firstName: user.firstName,
     lastName: user.lastName,
     email: user.email,
+    phone: user.phone,
     role: user.role,
   },
 });
@@ -47,7 +48,7 @@ const buildAuthResponse = (user, token, message) => ({
 // Register User
 exports.register = async (req, res, next) => {
   try {
-    const { firstName, lastName, email, password, confirmPassword } = req.body;
+    const { firstName, lastName, email, phone, password, confirmPassword } = req.body;
     const normalizedEmail = email?.trim().toLowerCase();
 
     if (!firstName || !lastName || !normalizedEmail || !password || !confirmPassword) {
@@ -85,6 +86,7 @@ exports.register = async (req, res, next) => {
       firstName: firstName.trim(),
       lastName: lastName.trim(),
       email: normalizedEmail,
+      phone: phone?.trim() || undefined,
       password,
     });
 
