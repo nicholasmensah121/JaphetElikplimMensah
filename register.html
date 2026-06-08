@@ -649,10 +649,28 @@
 
         window.addEventListener('load', async () => {
             if (window.location.protocol === 'file:') {
-                showMessage(
-                    'This page is opened from a file:// URL. Start the backend server and use a local web server or open http://localhost:5000/register.html so the form can reach the API.',
-                    'error'
-                );
+                const redirectUrl = 'http://localhost:5000/register.html';
+                fetch(redirectUrl, {
+                    method: 'GET',
+                    mode: 'cors',
+                    cache: 'no-cache'
+                })
+                    .then((res) => {
+                        if (res.ok) {
+                            window.location.replace(redirectUrl);
+                        } else {
+                            showMessage(
+                                'This page is opened from a file:// URL. Start the backend server and use a local web server or open http://localhost:5000/register.html so the form can reach the API.',
+                                'error'
+                            );
+                        }
+                    })
+                    .catch(() => {
+                        showMessage(
+                            'This page is opened from a file:// URL. Start the backend server and use a local web server or open http://localhost:5000/register.html so the form can reach the API.',
+                            'error'
+                        );
+                    });
             }
 
             const hasUser = !!storageManager.get('user');

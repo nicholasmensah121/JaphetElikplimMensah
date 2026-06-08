@@ -282,7 +282,22 @@
             }
 
             if (window.location.protocol === 'file:') {
-                toast.error('This page is opened from a file:// URL. Start the backend server and open this page via a local web server or http://localhost:5000/contact.html so the contact form can reach the API.');
+                const redirectUrl = 'http://localhost:5000/contact.html';
+                fetch(redirectUrl, {
+                    method: 'GET',
+                    mode: 'cors',
+                    cache: 'no-cache'
+                })
+                    .then((res) => {
+                        if (res.ok) {
+                            window.location.replace(redirectUrl);
+                        } else {
+                            toast.error('This page is opened from a file:// URL. Start the backend server and open this page via a local web server or http://localhost:5000/contact.html so the contact form can reach the API.');
+                        }
+                    })
+                    .catch(() => {
+                        toast.error('This page is opened from a file:// URL. Start the backend server and open this page via a local web server or http://localhost:5000/contact.html so the contact form can reach the API.');
+                    });
             }
 
             // Smooth scrolling for anchor links

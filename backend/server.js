@@ -47,7 +47,32 @@ app.use(csrfProtection);
 
 // Serve frontend assets from repo root in development
 const staticRoot = path.join(__dirname, '..');
-app.use(express.static(staticRoot));
+
+// Block direct public access to sensitive repository and backend files.
+const forbiddenStaticPaths = [
+  '/backend',
+  '/scripts',
+  '/.git',
+  '/.env',
+  '/package.json',
+  '/package-lock.json',
+  '/README.md',
+  '/FIXES_SUMMARY.md',
+  '/PROJECT_REVIEW.md',
+  '/SECURITY_FIXES_REPORT.md',
+  '/SETUP_GUIDE.md',
+  '/tmp_check_user_script.js',
+];
+
+app.use((req, res, next) => {
+  const normalizedPath = req.path.toLowerCase();
+  if (forbiddenStaticPaths.some((prefix) => normalizedPath === prefix || normalizedPath.startsWith(`${prefix}/`))) {
+    return res.status(404).send('Not found');
+  }
+  next();
+});
+
+app.use(express.static(staticRoot, { dotfiles: 'deny', index: false }));
 
 // Redirect root to login page to simplify local testing
 app.get('/', (req, res) => {
