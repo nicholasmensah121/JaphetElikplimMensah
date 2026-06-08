@@ -35,6 +35,26 @@
     --shadow-xl: 0 12px 32px rgba(0,0,0,0.25);
 }
 
+html {
+    box-sizing: border-box;
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+
+img, picture, video, canvas, svg {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+button, input, select, textarea {
+    font: inherit;
+}
+
 body {
     margin: 0;
     font-family: 'Inter', 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, sans-serif;
@@ -98,9 +118,9 @@ header.header--small {
     box-shadow: var(--shadow-lg);
 }
 
-/* Main content spacing */
+/* Main content spacing (uses dynamic header height when available) */
 main, section {
-    padding-top: calc(var(--header-height) + var(--spacing-lg));
+    padding-top: calc(var(--header-height-px, var(--header-height)) + var(--spacing-lg));
 }
 
 .container {
@@ -119,6 +139,35 @@ header .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 var(--spacing-lg);
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+    min-height: 0;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: auto;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+nav ul {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+    width: auto;
+    gap: var(--spacing-lg);
+}
+
+nav ul li {
+    display: inline-flex;
+    align-items: center;
+    min-width: max-content;
 }
 
 /* Brand section with logo and company name */
@@ -126,6 +175,7 @@ header .container {
     display: flex;
     align-items: center;
     gap: var(--spacing-md);
+    min-width: 0;
 }
 
 .logo-container {
@@ -161,6 +211,10 @@ header h1 {
     font-weight: 600;
     color: var(--accent-gold);
     letter-spacing: 1px;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* Navigation styling */
@@ -239,6 +293,89 @@ nav ul li a:hover::after {
 }
 
 /* Hero Section */
+
+/* Mobile navigation toggle */
+.sr-only {
+    position: absolute !important;
+    height: 1px; width: 1px;
+    overflow: hidden; clip: rect(1px, 1px, 1px, 1px);
+    white-space: nowrap; border: 0; padding: 0; margin: -1px;
+}
+
+.nav-toggle {
+    display: none;
+    background: transparent;
+    border: none;
+    color: var(--white);
+    width: 44px;
+    height: 44px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.nav-toggle .hamburger {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--white);
+    position: relative;
+    transition: all 0.25s ease;
+}
+
+.nav-toggle .hamburger::before,
+.nav-toggle .hamburger::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 22px;
+    height: 2px;
+    background: var(--white);
+    transition: all 0.25s ease;
+}
+
+.nav-toggle .hamburger::before { top: -7px; }
+.nav-toggle .hamburger::after { top: 7px; }
+
+/* When nav is open, transform hamburger into an X */
+header.nav-open .nav-toggle .hamburger { background: transparent; }
+header.nav-open .nav-toggle .hamburger::before { transform: rotate(45deg) translate(4px, 4px); top: 0; }
+header.nav-open .nav-toggle .hamburger::after { transform: rotate(-45deg) translate(4px, -4px); top: 0; }
+
+@media (max-width: 768px) {
+    .nav-toggle { display: flex; }
+
+    nav {
+        width: 100%;
+        order: 2;
+    }
+
+    nav ul {
+        flex-direction: column;
+        gap: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.28s ease;
+        width: 100%;
+        padding: 0;
+    }
+
+    header.nav-open nav ul {
+        max-height: 600px; /* enough to show items */
+    }
+
+    nav ul li {
+        width: 100%;
+        text-align: center;
+        border-top: 1px solid rgba(255,255,255,0.03);
+    }
+
+    nav ul li a {
+        display: block;
+        width: 100%;
+        padding: 1rem 0;
+    }
+}
 .hero {
     background: linear-gradient(135deg, rgba(26, 35, 50, 0.8) 0%, rgba(44, 62, 80, 0.9) 100%), 
                 url('images/Marlow-3-Piece-Burgundy-Tuxedo-1.jpg') center/cover no-repeat;
@@ -276,6 +413,8 @@ nav ul li a:hover::after {
     border: 1px solid rgba(212, 175, 55, 0.2);
     box-shadow: var(--shadow-xl);
     max-width: 600px;
+    width: 100%;
+    max-width: 680px;
     margin: 0 var(--spacing-lg);
     position: relative;
     z-index: 2;
@@ -563,7 +702,30 @@ nav ul li a:hover::after {
     }
     
     .products {
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: var(--spacing-lg);
+    }
+
+    .hero {
+        min-height: 75vh;
+    }
+}
+
+@media (max-width: 1024px) {
+    .hero-text {
+        padding: var(--spacing-xl) var(--spacing-md);
+    }
+
+    .collection h2 {
+        font-size: 2.2rem;
+    }
+
+    .collection .products {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .contact-content {
+        grid-template-columns: 1fr;
         gap: var(--spacing-lg);
     }
 }
@@ -577,21 +739,37 @@ nav ul li a:hover::after {
         padding: 0 var(--spacing-md);
     }
     
+    header .container {
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: var(--spacing-md);
+        align-items: center;
+    }
+    
+    nav {
+        width: 100%;
+        justify-content: center;
+        order: 2;
+    }
+    
     header h1 {
         font-size: 1.5rem;
     }
     
     nav ul {
         gap: var(--spacing-md);
+        justify-content: center;
+        width: 100%;
+        flex-wrap: wrap;
     }
     
     nav ul li a {
-        font-size: 0.9rem;
-        padding: var(--spacing-xs);
+        font-size: 0.95rem;
+        padding: 0.8rem 1rem;
     }
     
     .hero-text {
-        padding: var(--spacing-xl);
+        padding: var(--spacing-xl) var(--spacing-md);
         margin: 0 var(--spacing-md);
     }
     
@@ -608,7 +786,7 @@ nav ul li a:hover::after {
     }
     
     .products {
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
         gap: var(--spacing-md);
         padding: 0 var(--spacing-md);
     }
@@ -626,7 +804,23 @@ nav ul li a:hover::after {
     }
     
     .card-body p {
-        font-size: 0.9rem;
+        font-size: 0.95rem;
+    }
+    
+    .product-card .add-to-cart {
+        opacity: 1;
+        transform: translateY(0);
+        position: relative;
+        bottom: auto;
+        left: auto;
+        right: auto;
+        width: 100%;
+        margin-top: var(--spacing-md);
+    }
+    
+    .contact-content {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-lg);
     }
 }
 
@@ -635,10 +829,13 @@ nav ul li a:hover::after {
         flex-direction: column;
         gap: var(--spacing-sm);
         padding: var(--spacing-sm) var(--spacing-md);
+        align-items: center;
     }
     
     .brand {
         gap: var(--spacing-sm);
+        width: 100%;
+        justify-content: center;
     }
     
     .logo-container {
@@ -648,12 +845,21 @@ nav ul li a:hover::after {
     
     header h1 {
         font-size: 1.4rem;
+        text-align: center;
+        width: 100%;
+    }
+    
+    nav {
+        width: 100%;
+        justify-content: center;
+        order: 2;
     }
     
     nav ul {
         flex-wrap: wrap;
         justify-content: center;
         gap: var(--spacing-sm);
+        width: 100%;
     }
     
     .hero {
@@ -682,6 +888,17 @@ nav ul li a:hover::after {
     .btn {
         padding: var(--spacing-sm) var(--spacing-md);
         font-size: 1rem;
+        width: 100%;
+        max-width: 360px;
+    }
+
+    form {
+        padding: var(--spacing-lg);
+    }
+
+    .contact-content {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-lg);
     }
 }
 

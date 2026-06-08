@@ -208,3 +208,51 @@ const sanitizer = new Sanitizer();
 const errorHandler = new ErrorHandler();
 const storageManager = new StorageManager();
 const loadingManager = new LoadingManager();
+
+// Responsive helper: update CSS var with actual header height to prevent overlap
+function updateHeaderHeightVar() {
+  try {
+    const header = document.querySelector('header');
+    if (!header) return;
+    const height = header.offsetHeight;
+    document.documentElement.style.setProperty('--header-height-px', height + 'px');
+  } catch (e) {
+    // fail silently
+  }
+}
+
+let _hdrResizeTimer = null;
+window.addEventListener('load', () => {
+  updateHeaderHeightVar();
+});
+window.addEventListener('resize', () => {
+  clearTimeout(_hdrResizeTimer);
+  _hdrResizeTimer = setTimeout(updateHeaderHeightVar, 120);
+});
+
+// Mobile nav toggle: collapse/expand primary nav and update header height var
+document.addEventListener('DOMContentLoaded', () => {
+  const navToggle = document.querySelector('.nav-toggle');
+  const header = document.querySelector('header');
+  const primaryNav = document.getElementById('primary-nav');
+
+  if (!navToggle || !header || !primaryNav) return;
+
+  navToggle.addEventListener('click', () => {
+    const expanded = navToggle.getAttribute('aria-expanded') === 'true';
+    navToggle.setAttribute('aria-expanded', String(!expanded));
+    header.classList.toggle('nav-open');
+
+    // Force update header height variable after menu animation
+    setTimeout(updateHeaderHeightVar, 280);
+  });
+
+  // Close nav on escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && header.classList.contains('nav-open')) {
+      header.classList.remove('nav-open');
+      navToggle.setAttribute('aria-expanded', 'false');
+      updateHeaderHeightVar();
+    }
+  });
+});
