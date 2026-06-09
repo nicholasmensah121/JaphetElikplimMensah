@@ -69,21 +69,6 @@ const userSchema = new mongoose.Schema(
       default: 'customer',
       index: true, // Index for admin queries
     },
-    wishlist: [
-      {
-        type: mongoose.Schema.ObjectId,
-        ref: 'Product',
-      },
-    ],
-    loyaltyPoints: {
-      type: Number,
-      default: 1200,
-      min: 0,
-    },
-    membershipTier: {
-      type: String,
-      default: 'Silver Gentleman',
-    },
     measurements: {
       chest: { type: Number, min: 0 },
       waist: { type: Number, min: 0 },
@@ -91,11 +76,6 @@ const userSchema = new mongoose.Schema(
       neck: { type: Number, min: 0 },
       sleeve: { type: Number, min: 0 },
       shoulder: { type: Number, min: 0 },
-    },
-    stylePreferences: {
-      preferredColors: [String],
-      preferredFabrics: [String],
-      dressCodes: [String],
     },
     paymentMethods: [
       {

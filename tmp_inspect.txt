@@ -1,0 +1,69 @@
+            <div class="user-section">
+                <!-- Sidebar Menu -->
+                <div class="user-sidebar open">
+                    <div class="sidebar-header">
+                        <div class="sidebar-profile">
+                            <div class="sidebar-avatar" id="sidebarAvatar">GP</div>
+                            <div>
+                                <p class="sidebar-welcome">Hello, <span id="sidebarUserName">Gentleman</span></p>
+                                <p class="sidebar-phone" id="sidebarUserPhone">No phone number provided</p>
+                                <p class="sidebar-role">Style member</p>
+                            </div>
+                        </div>
+                        <button id="sidebarToggle" class="sidebar-toggle-btn" aria-expanded="true" aria-label="Toggle account menu">☰</button>
+                    </div>
+                    <h3>Account Menu</h3>
+                    <div class="sidebar-menu-wrap">
+                        <ul class="user-menu">
+                            <li><button class="menu-btn active" data-section="dashboard"><span class="menu-icon">🏠</span>Dashboard</button></li>
+                            <li><button class="menu-btn" data-section="profile"><span class="menu-icon">👤</span>My Profile</button></li>
+                            <li><button class="menu-btn" data-section="cart"><span class="menu-icon">🛒</span>My Cart</button></li>
+                            <li><button class="menu-btn" data-section="orders"><span class="menu-icon">📦</span>Order History</button></li>
+                            <li><button class="menu-btn" data-section="addresses"><span class="menu-icon">📍</span>Addresses</button></li>"},{"filePath":"c:\\Users\\Nicho\\Pictures\\JaphetElikplimMensah\\user.html","oldString":"                            <li><button class=\"menu-btn\" data-section=\"measurements\"><span class=\"menu-icon\">📏</span>Measurements</button></li>
+                            <li><button class=\"menu-btn\" data-section=\"preferences\"><span class=\"menu-icon\">🎨</span>Style Preferences</button></li>
+                            <li><button class=\"menu-btn\" data-section=\"loyalty\"><span class=\"menu-icon\">🏅</span>Loyalty & Rewards</button></li>
+                            <li><button class=\"menu-btn\" data-section=\"settings\"><span class=\"menu-icon\">⚙️</span>Account Settings</button></li>","newString":"                            <li><button class=\"menu-btn\" data-section=\"measurements\"><span class=\"menu-icon\">📏</span>Measurements</button></li>
+                            <li><button class=\"menu-btn\" data-section=\"settings\"><span class=\"menu-icon\">⚙️</span>Account Settings</button></li>"},{"filePath":"c:\\Users\\Nicho\\Pictures\\JaphetElikplimMensah\\user.html","oldString":"                <!-- Wishlist Section -->
+                <div id=\"wishlistSection\" class=\"user-content hidden\">
+                    <h2>Wishlist & Favorites</h2>
+                    <p class=\"secondary-text\">Save styles for your next curated look.</p>
+                    <div id=\"wishlistList\"></div>
+                </div>","newString":""},{"filePath":"c:\\Users\\Nicho\\Pictures\\JaphetElikplimMensah\\user.html","oldString":"                <!-- Preferences Section -->
+                <div id=\"preferencesSection\" class=\"user-content hidden\">
+                    <h2>Style Preferences</h2>
+                    <p class=\"secondary-text\">Your preferences help us recommend sharper looks.</p>
+                    <div id=\"preferencesList\"></div>
+                </div>","newString":""},{"filePath":"c:\\Users\\Nicho\\Pictures\\JaphetElikplimMensah\\user.html","oldString":"                <!-- Loyalty Section -->
+                <div id=\"loyaltySection\" class=\"user-content hidden\">
+                    <h2>Loyalty & Rewards</h2>
+                    <p class=\"secondary-text\">Track your points, tier and upcoming rewards.</p>
+                    <div id=\"loyaltySummary\"></div>
+                </div>","newString":""},{"filePath":"c:\\Users\\Nicho\\Pictures\\JaphetElikplimMensah\\user.html","oldString":"        function renderWishlist(items) {
+            const wishlistList = document.getElementById('wishlistList');
+            if (!wishlistList) return;
+
+            wishlistList.innerHTML = '';
+            const count = items.length;
+
+            if (!count) {
+                wishlistList.textContent = 'Your wishlist is empty. Tap the heart on your favorite looks to save them.';
+                return;
+            }
+
+            const list = document.createElement('ul');
+            list.className = 'detail-list';
+            items.forEach(item => {
+                const listItem = document.createElement('li');
+                const name = item.name || item.title || 'Saved item';
+                listItem.textContent = name;
+                list.appendChild(listItem);
+            });
+
+            wishlistList.appendChild(list);
+        }
+
+        async function loadWishlist() {
+            try {
+                const response = await apiService.getProfile();
+                const wishlist = response?.user?.wishlist || [];
+                renderWishlist(wishlist);

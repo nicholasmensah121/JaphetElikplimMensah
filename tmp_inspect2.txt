@@ -1,0 +1,61 @@
+                renderWishlist(wishlist);
+            } catch (error) {
+                console.error('Error loading wishlist:', error);
+                const wishlistList = document.getElementById('wishlistList');
+                if (wishlistList) {
+                    wishlistList.textContent = 'Unable to load wishlist at this time.';
+                }
+            }
+        }","newString":""},{"filePath":"c:\\Users\\Nicho\\Pictures\\JaphetElikplimMensah\\user.html","oldString":"        function renderStylePreferences() {
+            const preferencesList = document.getElementById('preferencesList');
+            if (!preferencesList) return;
+            const preferences = currentUser?.stylePreferences || {};
+            preferencesList.innerHTML = '';
+
+            if (!Object.keys(preferences).length) {
+                preferencesList.textContent = 'No style preferences set. Update your preferences to receive curated recommendations.';
+                return;
+            }
+
+            const list = document.createElement('ul');
+            list.className = 'detail-list';
+            Object.entries(preferences).forEach(([key, value]) => {
+                const displayValue = Array.isArray(value) ? value.join(', ') : value;
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `<strong>${key.replace(/([A-Z])/g, ' $1')}</strong>: ${displayValue || 'N/A'}`;
+                list.appendChild(listItem);
+            });
+            preferencesList.appendChild(list);
+        }
+
+        function renderLoyalty() {
+            const loyaltySummary = document.getElementById('loyaltySummary');
+            if (!loyaltySummary) return;
+            loyaltySummary.innerHTML = '';
+
+            if (!dashboardData) {
+                loyaltySummary.textContent = 'Loading your loyalty information...';
+                return;
+            }
+
+            const pointsInfo = document.createElement('p');
+            pointsInfo.innerHTML = `<strong>Tier:</strong> ${dashboardData.membershipTier}`;
+            const progressInfo = document.createElement('p');
+            progressInfo.innerHTML = `<strong>Points:</strong> ${dashboardData.loyaltyPoints}`;
+            const rewardInfo = document.createElement('p');
+            rewardInfo.textContent = dashboardData.progress >= 100
+                ? 'You are ready for the next tier. Enjoy priority service and exclusive treatment.'
+                : `Earn ${Math.max(0, 2000 - dashboardData.loyaltyPoints)} more points to reach the next tier.`;
+
+            loyaltySummary.append(pointsInfo, progressInfo, rewardInfo);
+        }","newString":""},{"filePath":"c:\\Users\\Nicho\\Pictures\\JaphetElikplimMensah\\user.html","oldString":"            if (section === 'wishlist') {
+                loadWishlist();
+            }","newString":""},{"filePath":"c:\\Users\\Nicho\\Pictures\\JaphetElikplimMensah\\user.html","oldString":"            if (section === 'preferences') {
+                renderStylePreferences();
+            }","newString":""},{"filePath":"c:\\Users\\Nicho\\Pictures\\JaphetElikplimMensah\\user.html","oldString":"            if (section === 'loyalty') {
+                if (!dashboardData) {
+                    loadDashboard().then(() => renderLoyalty());
+                } else {
+                    renderLoyalty();
+                }
+            }","newString":""},{"filePath":"c:\\Users\\Nicho\\Pictures\\JaphetElikplimMensah\\user.html","oldString":"                // Also refresh dashboard and other dependent sections

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
@@ -719,24 +719,139 @@
                             <div>
                                 <p class="sidebar-welcome">Hello, <span id="sidebarUserName">Gentleman</span></p>
                                 <p class="sidebar-phone" id="sidebarUserPhone">No phone number provided</p>
-                                <p class="sidebar-role">Member</p>
+                                <p class="sidebar-role">Style member</p>
                             </div>
                         </div>
-                        <button id="sidebarToggle" class="sidebar-toggle-btn" aria-expanded="true" aria-label="Toggle account menu">&#x2630;</button>
+                        <button id="sidebarToggle" class="sidebar-toggle-btn" aria-expanded="true" aria-label="Toggle account menu">☰</button>
                     </div>
                     <h3>Account Menu</h3>
                     <div class="sidebar-menu-wrap">
                         <ul class="user-menu">
-                            <li><button class="menu-btn active" data-section="dashboard"><span class="menu-icon">&#x1F3E0;</span>Dashboard</button></li>
-                            <li><button class="menu-btn" data-section="profile"><span class="menu-icon">&#x1F464;</span>My Profile</button></li>
-                            <li><button class="menu-btn" data-section="cart"><span class="menu-icon">&#x1F6D2;</span>My Cart</button></li>
-                            <li><button class="menu-btn" data-section="orders"><span class="menu-icon">&#x1F4E6;</span>Order History</button></li>
-                            <li><button class="menu-btn" data-section="addresses"><span class="menu-icon">&#x1F4CD;</span>Addresses</button></li>
-                            <li><button class="menu-btn" data-section="measurements"><span class="menu-icon">&#x1F4CF;</span>Measurements</button></li>
-                            <li><button class="menu-btn" data-section="payment"><span class="menu-icon">&#x1F4B3;</span>Payment Methods</button></li>
-                            <li><button class="menu-btn" data-section="settings"><span class="menu-icon">&#x2699;&#xFE0F;</span>Account Settings</button></li>
+                            <li><button class="menu-btn active" data-section="dashboard"><span class="menu-icon">🏠</span>Dashboard</button></li>
+                            <li><button class="menu-btn" data-section="profile"><span class="menu-icon">👤</span>My Profile</button></li>
+                            <li><button class="menu-btn" data-section="cart"><span class="menu-icon">🛒</span>My Cart</button></li>
+                            <li><button class="menu-btn" data-section="orders"><span class="menu-icon">📦</span>Order History</button></li>
+                            <li><button class="menu-btn" data-section="addresses"><span class="menu-icon">📍</span>Addresses</button></li>
+                            <li><button class="menu-btn" data-section="measurements"><span class="menu-icon">📏</span>Measurements</button></li>
+                            <li><button class="menu-btn" data-section="settings"><span class="menu-icon">⚙️</span>Account Settings</button></li>","newString":"                            <li><button class=\"menu-btn\" data-section=\"measurements\"><span class=\"menu-icon\">📏</span>Measurements</button></li>
+                            <li><button class=\"menu-btn\" data-section=\"settings\"><span class=\"menu-icon\">⚙️</span>Account Settings</button></li>"},{"filePath":"c:\\Users\\Nicho\\Pictures\\JaphetElikplimMensah\\user.html","oldString":"                <!-- Wishlist Section -->
+                <div id=\"wishlistSection\" class=\"user-content hidden\">
+                    <h2>Wishlist & Favorites</h2>
+                    <p class=\"secondary-text\">Save styles for your next curated look.</p>
+                    <div id=\"wishlistList\"></div>
+                </div>","newString":""},{"filePath":"c:\\Users\\Nicho\\Pictures\\JaphetElikplimMensah\\user.html","oldString":"                <!-- Preferences Section -->
+                <div id=\"preferencesSection\" class=\"user-content hidden\">
+                    <h2>Style Preferences</h2>
+                    <p class=\"secondary-text\">Your preferences help us recommend sharper looks.</p>
+                    <div id=\"preferencesList\"></div>
+                </div>","newString":""},{"filePath":"c:\\Users\\Nicho\\Pictures\\JaphetElikplimMensah\\user.html","oldString":"                <!-- Loyalty Section -->
+                <div id=\"loyaltySection\" class=\"user-content hidden\">
+                    <h2>Loyalty & Rewards</h2>
+                    <p class=\"secondary-text\">Track your points, tier and upcoming rewards.</p>
+                    <div id=\"loyaltySummary\"></div>
+                </div>","newString":""},{"filePath":"c:\\Users\\Nicho\\Pictures\\JaphetElikplimMensah\\user.html","oldString":"        function renderWishlist(items) {
+            const wishlistList = document.getElementById('wishlistList');
+            if (!wishlistList) return;
+
+            wishlistList.innerHTML = '';
+            const count = items.length;
+
+            if (!count) {
+                wishlistList.textContent = 'Your wishlist is empty. Tap the heart on your favorite looks to save them.';
+                return;
+            }
+
+            const list = document.createElement('ul');
+            list.className = 'detail-list';
+            items.forEach(item => {
+                const listItem = document.createElement('li');
+                const name = item.name || item.title || 'Saved item';
+                listItem.textContent = name;
+                list.appendChild(listItem);
+            });
+
+            wishlistList.appendChild(list);
+        }
+
+        async function loadWishlist() {
+            try {
+                const response = await apiService.getProfile();
+                const wishlist = response?.user?.wishlist || [];
+                renderWishlist(wishlist);
+            } catch (error) {
+                console.error('Error loading wishlist:', error);
+                const wishlistList = document.getElementById('wishlistList');
+                if (wishlistList) {
+                    wishlistList.textContent = 'Unable to load wishlist at this time.';
+                }
+            }
+        }","newString":""},{"filePath":"c:\\Users\\Nicho\\Pictures\\JaphetElikplimMensah\\user.html","oldString":"        function renderStylePreferences() {
+            const preferencesList = document.getElementById('preferencesList');
+            if (!preferencesList) return;
+            const preferences = currentUser?.stylePreferences || {};
+            preferencesList.innerHTML = '';
+
+            if (!Object.keys(preferences).length) {
+                preferencesList.textContent = 'No style preferences set. Update your preferences to receive curated recommendations.';
+                return;
+            }
+
+            const list = document.createElement('ul');
+            list.className = 'detail-list';
+            Object.entries(preferences).forEach(([key, value]) => {
+                const displayValue = Array.isArray(value) ? value.join(', ') : value;
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `<strong>${key.replace(/([A-Z])/g, ' $1')}</strong>: ${displayValue || 'N/A'}`;
+                list.appendChild(listItem);
+            });
+            preferencesList.appendChild(list);
+        }
+
+        function renderLoyalty() {
+            const loyaltySummary = document.getElementById('loyaltySummary');
+            if (!loyaltySummary) return;
+            loyaltySummary.innerHTML = '';
+
+            if (!dashboardData) {
+                loyaltySummary.textContent = 'Loading your loyalty information...';
+                return;
+            }
+
+            const pointsInfo = document.createElement('p');
+            pointsInfo.innerHTML = `<strong>Tier:</strong> ${dashboardData.membershipTier}`;
+            const progressInfo = document.createElement('p');
+            progressInfo.innerHTML = `<strong>Points:</strong> ${dashboardData.loyaltyPoints}`;
+            const rewardInfo = document.createElement('p');
+            rewardInfo.textContent = dashboardData.progress >= 100
+                ? 'You are ready for the next tier. Enjoy priority service and exclusive treatment.'
+                : `Earn ${Math.max(0, 2000 - dashboardData.loyaltyPoints)} more points to reach the next tier.`;
+
+            loyaltySummary.append(pointsInfo, progressInfo, rewardInfo);
+        }","newString":""},{"filePath":"c:\\Users\\Nicho\\Pictures\\JaphetElikplimMensah\\user.html","oldString":"            if (section === 'wishlist') {
+                loadWishlist();
+            }","newString":""},{"filePath":"c:\\Users\\Nicho\\Pictures\\JaphetElikplimMensah\\user.html","oldString":"            if (section === 'preferences') {
+                renderStylePreferences();
+            }","newString":""},{"filePath":"c:\\Users\\Nicho\\Pictures\\JaphetElikplimMensah\\user.html","oldString":"            if (section === 'loyalty') {
+                if (!dashboardData) {
+                    loadDashboard().then(() => renderLoyalty());
+                } else {
+                    renderLoyalty();
+                }
+            }","newString":""},{"filePath":"c:\\Users\\Nicho\\Pictures\\JaphetElikplimMensah\\user.html","oldString":"                // Also refresh dashboard and other dependent sections
+                try { await loadDashboard(); } catch (_) {}
+                renderPaymentMethods();
+                renderMeasurements();
+                renderStylePreferences();","newString":"                // Also refresh dashboard and other dependent sections
+                try { await loadDashboard(); } catch (_) {}
+                renderPaymentMethods();
+                renderMeasurements();"}]}
+                            <li><button class="menu-btn" data-section="payment"><span class="menu-icon">💳</span>Payment Methods</button></li>
+                            <li><button class="menu-btn" data-section="measurements"><span class="menu-icon">📏</span>Measurements</button></li>
+                            
+                            
+                            <li><button class="menu-btn" data-section="settings"><span class="menu-icon">⚙️</span>Account Settings</button></li>
                             <li class="profile-menu-divider">
-                                <button class="menu-btn" id="logoutBtn"><span class="menu-icon">&#x1F6AA;</span>Logout</button>
+                                <button class="menu-btn" id="logoutBtn"><span class="menu-icon">🚪</span>Logout</button>
                             </li>
                         </ul>
                     </div>
@@ -761,7 +876,7 @@
                     <div class="user-account-quickstats">
                         <div class="quickstat-card">
                             <strong class="quickstat-value">Member</strong>
-                            <span>Current account status</span>
+                            <span>Current tier and reward status</span>
                         </div>
                         <div class="quickstat-card">
                             <strong class="quickstat-value">0 orders</strong>
@@ -772,8 +887,8 @@
                             <span>Recent order activity and delivery updates</span>
                         </div>
                         <div class="quickstat-card">
-                            <strong class="quickstat-value">Profile ready</strong>
-                            <span>Your account details are up to date.</span>
+                            <strong class="quickstat-value">Account ready</strong>
+                            <span>Your settings and profile are prepared for checkout.</span>
                         </div>
                     </div>
                     <div class="dashboard-grid">
@@ -961,7 +1076,7 @@
                             await loadDashboard();
                         }
                     } else {
-                        // Logged out or unauthenticated - clear client state
+                        // Logged out or unauthenticated — clear client state
                         currentUser = null;
                         storageManager.remove('user');
                         document.querySelectorAll('[data-account-link]').forEach(link => link.textContent = 'Account');
@@ -1064,6 +1179,12 @@
             document.getElementById('dashboardGreeting').textContent = data.greeting || 'Welcome back';
             document.getElementById('dashboardMembership').textContent = 'Member';
             document.getElementById('dashboardOrders').textContent = `${data.totalOrders ?? 0} order${data.totalOrders === 1 ? '' : 's'} placed`;
+            const wishlistElem = document.getElementById('dashboardWishlist');
+            if (wishlistElem) wishlistElem.textContent = '0 saved';
+            const progressBar = document.getElementById('dashboardProgressBar');
+            if (progressBar) progressBar.style.width = '0%';
+            const progressText = document.getElementById('dashboardProgressText');
+            if (progressText) progressText.textContent = '0% toward your next tier';
 
             const activityContainer = document.getElementById('dashboardActivity');
             if (activityContainer) {
@@ -1113,7 +1234,7 @@
                 const listItem = document.createElement('li');
                 listItem.innerHTML = `
                     <strong>Order #${String(order._id).slice(-6)}</strong><br />
-                    ${new Date(order.createdAt || Date.now()).toLocaleDateString()} &#x2022; ${order.orderStatus || 'Pending'} &#x2022; ${itemCount} item${itemCount === 1 ? '' : 's'}
+                    ${new Date(order.createdAt || Date.now()).toLocaleDateString()} • ${order.orderStatus || 'Pending'} • ${itemCount} item${itemCount === 1 ? '' : 's'}
                 `;
                 list.appendChild(listItem);
             });
@@ -1149,7 +1270,7 @@
             list.className = 'detail-list';
             methods.forEach(method => {
                 const listItem = document.createElement('li');
-                listItem.innerHTML = `<strong>${method.brand || 'Card'}</strong> &#x2022; ending ${method.last4 || '****'} &#x2022; expires ${method.expiry || 'N/A'}`;
+                listItem.innerHTML = `<strong>${method.brand || 'Card'}</strong> • ending ${method.last4 || '****'} • expires ${method.expiry || 'N/A'}`;
                 list.appendChild(listItem);
             });
             paymentList.appendChild(list);
@@ -1291,7 +1412,7 @@
                 return;
             }
 
-            cartStatus.textContent = `Live cart data: ${totalItems} item${totalItems === 1 ? '' : 's'} \u2022 Updated ${lastUpdated}`;
+            cartStatus.textContent = `Live cart data: ${totalItems} item${totalItems === 1 ? '' : 's'} • Updated ${lastUpdated}`;
         }
 
         function startCartRefresh() {
@@ -1351,7 +1472,7 @@
                 userName.textContent = name || 'Valued Guest';
             }
             if (role) {
-                role.textContent = user.role === 'admin' ? 'Administrator' : 'Member';
+                role.textContent = user.membershipTier || 'Style member';
             }
             const phoneElement = document.getElementById('sidebarUserPhone');
             if (phoneElement) {
@@ -1561,4 +1682,3 @@
     <script src="js/smoothNavigation.js"></script>
 </body>
 </html>
-

@@ -33,7 +33,7 @@ const formatDate = (date) => {
   return new Date(date).toLocaleDateString('en-US', options);
 };
 
-const buildRecentActivity = (user, orders, wishlistCount) => {
+const buildRecentActivity = (user, orders) => {
   const activity = [];
 
   if (orders.length > 0) {
@@ -42,14 +42,6 @@ const buildRecentActivity = (user, orders, wishlistCount) => {
     activity.push(`Last order status: ${lastOrder.orderStatus}.`);
   } else {
     activity.push('No recent orders yet. Start shopping the latest styles today.');
-  }
-
-  if (wishlistCount > 0) {
-    activity.push(`You have ${wishlistCount} item${wishlistCount === 1 ? '' : 's'} in your wishlist.`);
-  }
-
-  if (user.stylePreferences && Object.keys(user.stylePreferences).length > 0) {
-    activity.push('Your style preferences are up to date.');
   }
 
   if (activity.length === 0) {
@@ -61,10 +53,7 @@ const buildRecentActivity = (user, orders, wishlistCount) => {
 
 exports.getDashboard = async (req, res, next) => {
   try {
-    const user = await User.findById(req.userId).populate({
-      path: 'wishlist',
-      select: 'name price image',
-    });
+    const user = await User.findById(req.userId);
 
     if (!user) {
       return res.status(404).json({ success: false, message: 'User not found' });
@@ -75,21 +64,11 @@ exports.getDashboard = async (req, res, next) => {
       .sort({ createdAt: -1 })
       .limit(3);
 
-    const wishlistCount = Array.isArray(user.wishlist) ? user.wishlist.length : 0;
-    const loyaltyPoints = user.loyaltyPoints || 0;
-    const membershipTier = user.membershipTier || 'Silver Gentleman';
-    const progress = getTierProgress(loyaltyPoints, membershipTier.replace(' Gentleman', ''));
-
     const dashboard = {
       greeting: getGreeting(user.firstName, user.lastName),
       totalOrders,
-      wishlistCount,
-      loyaltyPoints,
-      membershipTier,
-      progress,
-      recentActivity: buildRecentActivity(user, recentOrders, wishlistCount),
+      recentActivity: buildRecentActivity(user, recentOrders),
       latestOrder: recentOrders[0] || null,
-      stylePreferences: user.stylePreferences || {},
       measurements: user.measurements || {},
       paymentMethods: user.paymentMethods || [],
     };

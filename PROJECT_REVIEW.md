@@ -295,7 +295,6 @@ docker-compose up  # Starts MongoDB + API
 ### Advanced Features - NOT IMPLEMENTED ⚠️
 - [ ] Payment processing (Stripe installed, not used)
 - [ ] Email notifications
-- [ ] Wishlist
 - [ ] Product recommendations
 - [ ] Admin analytics dashboard
 - [ ] Inventory alerts

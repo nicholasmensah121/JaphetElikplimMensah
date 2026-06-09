@@ -304,7 +304,7 @@ nav ul li a:hover::after {
 
 .nav-toggle {
     display: none;
-    background: transparent;
+    background: rgba(255,255,255,0.04);
     border: none;
     color: var(--white);
     width: 44px;
@@ -312,6 +312,14 @@ nav ul li a:hover::after {
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    border-radius: 8px;
+    padding: 6px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: background 0.22s ease, backdrop-filter 0.28s ease, box-shadow 0.22s ease, transform 0.18s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    position: relative;
+    z-index: 1100;
 }
 
 .nav-toggle .hamburger {
@@ -341,6 +349,38 @@ nav ul li a:hover::after {
 header.nav-open .nav-toggle .hamburger { background: transparent; }
 header.nav-open .nav-toggle .hamburger::before { transform: rotate(45deg) translate(4px, 4px); top: 0; }
 header.nav-open .nav-toggle .hamburger::after { transform: rotate(-45deg) translate(4px, -4px); top: 0; }
+
+/* Stronger visual for toggle when nav is open */
+header.nav-open .nav-toggle {
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+    transform: translateY(0);
+}
+
+/* Decorative background circle behind the hamburger */
+.nav-toggle::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgba(212,175,55,0.14), rgba(255,255,255,0.02));
+    opacity: 0.95;
+    transition: transform 0.22s var(--transition), opacity 0.22s var(--transition), box-shadow 0.22s var(--transition);
+    z-index: 1099;
+}
+
+/* Emphasize background when nav is open */
+header.nav-open .nav-toggle::before {
+    transform: translate(-50%, -50%) scale(1.08);
+    background: radial-gradient(circle at 30% 30%, rgba(212,175,55,0.22), rgba(255,255,255,0.04));
+    box-shadow: 0 8px 22px rgba(212,175,55,0.08);
+}
 
 @media (max-width: 768px) {
     .nav-toggle { display: flex; }
@@ -374,6 +414,20 @@ header.nav-open .nav-toggle .hamburger::after { transform: rotate(-45deg) transl
         display: block;
         width: 100%;
         padding: 1rem 0;
+    }
+}
+
+/* Fine-tune hamburger vertical position on small screens */
+@media (max-width: 768px) {
+    .nav-toggle {
+        align-self: center;
+        margin-top: 0; /* keep vertically centered */
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-toggle {
+        margin-top: 0; /* keep vertically centered on very small screens */
     }
 }
 .hero {
