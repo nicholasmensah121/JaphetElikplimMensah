@@ -1,12 +1,16 @@
-// SECURITY: Enhanced error handler with sanitized error messages
+// SECURITY: Enhanced error handler with sanitized error messages and logging
+const { logger } = require('../config/logger');
+
 const errorHandler = (err, req, res, next) => {
-  // Log full error details for debugging (only in development or to secure logging system)
-  if (process.env.NODE_ENV === 'development') {
-    console.error('[ERROR]', err);
-  } else {
-    // In production, log to external logging service (e.g., Sentry, CloudWatch)
-    console.error(`[${new Date().toISOString()}] Error:`, err.message);
-  }
+  // Log full error details
+  logger.error({
+    message: err.message,
+    status: err.status || err.statusCode || 500,
+    path: req.path,
+    method: req.method,
+    ip: req.ip,
+    stack: err.stack,
+  });
 
   // Determine status code
   let status = err.status || err.statusCode || 500;

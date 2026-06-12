@@ -1,6 +1,9 @@
 // Database Configuration
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/gentlemen-parlor';
 
+// Redis Configuration
+const REDIS_URL = process.env.REDIS_URL || 'redis://localhost:6379';
+
 // Server Configuration
 const PORT = process.env.PORT || 5000;
 const NODE_ENV = process.env.NODE_ENV || 'development';
@@ -57,6 +60,7 @@ const STRIPE_API_KEY = process.env.STRIPE_API_KEY;
 
 module.exports = {
   MONGODB_URI,
+  REDIS_URL,
   JWT_SECRET,
   JWT_EXPIRE,
   PORT,

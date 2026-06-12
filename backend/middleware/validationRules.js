@@ -210,25 +210,42 @@ const contactValidationRules = {
       .trim()
       .notEmpty().withMessage('Name is required')
       .isLength({ min: 2, max: 100 })
-      .withMessage('Name must be between 2 and 100 characters'),
+      .withMessage('Name must be between 2 and 100 characters')
+      .escape() // Escape HTML/special characters to prevent injection
+      .matches(/^[a-zA-Z\s\-'.]+$/)
+      .withMessage('Name can only contain letters, spaces, hyphens, and apostrophes'),
     body('email')
       .trim()
-      .isEmail().withMessage('Invalid email address'),
+      .isEmail().withMessage('Invalid email address')
+      .normalizeEmail(), // Normalize email format
     body('phone')
       .trim()
       .optional({ checkFalsy: true })
-      .matches(/^[+]?[(]?[0-9]{3}[)]?[-\\s.]?[0-9]{3}[-\\s.]?[0-9]{4,6}$/)
-      .withMessage('Invalid phone number format'),
+      .matches(/^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/)
+      .withMessage('Invalid phone number format')
+      .escape() // Escape to prevent NoSQL injection
+      .isLength({ min: 10, max: 20 })
+      .withMessage('Phone number must be between 10 and 20 characters'),
     body('subject')
       .trim()
       .notEmpty().withMessage('Subject is required')
       .isLength({ min: 3, max: 200 })
-      .withMessage('Subject must be between 3 and 200 characters'),
+      .withMessage('Subject must be between 3 and 200 characters')
+      .escape() // Escape to prevent injection
+      .matches(/^[a-zA-Z0-9\s\-.,!?'()]+$/)
+      .withMessage('Subject contains invalid characters'),
     body('message')
       .trim()
       .notEmpty().withMessage('Message is required')
       .isLength({ min: 10, max: 5000 })
-      .withMessage('Message must be between 10 and 5000 characters'),
+      .withMessage('Message must be between 10 and 5000 characters')
+      .escape() // Escape to prevent NoSQL injection
+      .matches(/^[a-zA-Z0-9\s\-.,!?'()\n\r]+$/)
+      .withMessage('Message contains invalid characters'),
+    body('newsletter')
+      .optional()
+      .isBoolean()
+      .withMessage('Newsletter must be a boolean value'),
   ],
 };
 

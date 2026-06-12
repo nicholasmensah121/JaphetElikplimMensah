@@ -8,6 +8,8 @@ const errorHandler = require('./middleware/errorHandler');
 const createRateLimit = require('./middleware/rateLimit');
 const securityHeaders = require('./middleware/securityHeaders');
 const { csrfProtection } = require('./middleware/csrf');
+const { initializeRedis, closeRedis } = require('./config/redis');
+const { httpLogger } = require('./config/logger');
 const ensureDemoUser = require('./utils/ensureDemoUser');
 const ensureProductCatalog = require('./utils/ensureProductCatalog');
 
@@ -35,10 +37,13 @@ const corsOptions = {
     return callback(new Error('Origin not allowed by CORS'));
   },
   credentials: true,
+  exposedHeaders: ['X-CSRF-Token', 'X-RateLimit-Remaining', 'X-RateLimit-Reset'],
+  allowedHeaders: ['Content-Type', 'X-CSRF-Token', 'Authorization', 'X-Requested-With'],
 };
 
 // Middleware
 app.use(cors(corsOptions));
+app.use(httpLogger);
 app.use(securityHeaders);
 app.use(createRateLimit());
 app.use(express.json({ limit: '100kb' }));
@@ -111,19 +116,30 @@ app.use(errorHandler);
 const PORT = config.PORT;
 
 const startServer = async () => {
-  await connectDB();
-  await ensureDemoUser();
-  await ensureProductCatalog();
+  try {
+    await connectDB();
+    await initializeRedis();
+    await ensureDemoUser();
+    await ensureProductCatalog();
 
-  app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-    console.log(`Environment: ${config.NODE_ENV}`);
-  });
+    app.listen(PORT, () => {
+      console.log(`✓ Server is running on port ${PORT}`);
+      console.log(`✓ Environment: ${config.NODE_ENV}`);
+    });
+
+    // Graceful shutdown
+    process.on('SIGTERM', async () => {
+      console.log('SIGTERM signal received: closing HTTP server');
+      await closeRedis();
+      process.exit(0);
+    });
+  } catch (error) {
+    console.error(`✗ Failed to start server: ${error.message}`);
+    await closeRedis();
+    process.exit(1);
+  }
 };
 
-startServer().catch((error) => {
-  console.error(`Failed to start server: ${error.message}`);
-  process.exit(1);
-});
+startServer();
 
 module.exports = app;

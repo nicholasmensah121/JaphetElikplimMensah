@@ -3,10 +3,19 @@ const router = express.Router();
 const { authenticate, authorize } = require('../middleware/auth');
 const productController = require('../controllers/productController');
 const { productValidationRules, validateRequest } = require('../middleware/validationRules');
+const createRateLimit = require('../middleware/rateLimit');
+const config = require('../config/config');
+
+// Rate limiting for public endpoints
+const publicRateLimit = createRateLimit({
+  keyPrefix: 'products-public',
+  maxRequests: 300, // Higher limit for read operations
+  message: 'Too many requests. Please try again later.',
+});
 
 // Public routes
-router.get('/', productValidationRules.searchProducts(), validateRequest, productController.getAllProducts);
-router.get('/:id', productValidationRules.getProductById(), validateRequest, productController.getProductById);
+router.get('/', publicRateLimit, productValidationRules.searchProducts(), validateRequest, productController.getAllProducts);
+router.get('/:id', publicRateLimit, productValidationRules.getProductById(), validateRequest, productController.getProductById);
 
 // Protected routes
 router.post('/:id/reviews', authenticate, productValidationRules.addReview(), validateRequest, productController.addReview);

@@ -118,21 +118,38 @@ class EnhancedAPIService {
 
   async refreshCsrfToken() {
     try {
+      // Try to get CSRF token from health endpoint
       const response = await fetch(`${this.baseURL}/health`, {
         method: 'GET',
         credentials: 'include',
-        headers: { Accept: 'application/json' },
+        headers: { 
+          'Accept': 'application/json',
+          'Cache-Control': 'no-cache, no-store, must-revalidate'
+        },
       });
 
+      // Check if response is ok
+      if (!response.ok) {
+        console.warn(`Health check returned ${response.status}:`, response.statusText);
+      }
+
+      // Try to get CSRF token from response headers
       const token = response.headers.get('x-csrf-token');
-      if (response.ok && token) {
+      if (token && token.trim()) {
         this.csrfToken = token;
+        console.log('CSRF token refreshed successfully');
         return token;
       }
 
-      throw new Error('Failed to refresh CSRF token from backend');
+      // If token not found but response is ok, still succeed (server might be in fallback mode)
+      if (response.ok) {
+        console.warn('CSRF token not found in response headers (Redis might be down, using fallback)');
+        return null; // Return null to indicate no token available but server is responsive
+      }
+
+      throw new Error(`Failed to refresh CSRF token: ${response.status} ${response.statusText}`);
     } catch (error) {
-      console.error('CSRF Token Refresh Error:', error);
+      console.error('CSRF Token Refresh Error:', error.message);
       throw error;
     }
   }
@@ -166,7 +183,12 @@ class EnhancedAPIService {
 
         if (method !== 'GET' && !headers['X-CSRF-Token']) {
           if (!this.csrfToken) {
-            await this.refreshCsrfToken();
+            try {
+              await this.refreshCsrfToken();
+            } catch (error) {
+              console.warn('Failed to refresh CSRF token, proceeding without it:', error.message);
+              // Continue without CSRF token - server will handle it
+            }
           }
           if (this.csrfToken) {
             headers['X-CSRF-Token'] = this.csrfToken;
