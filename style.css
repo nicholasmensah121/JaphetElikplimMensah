@@ -139,8 +139,7 @@ header .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 var(--spacing-lg);
-    flex-wrap: wrap;
-    gap: var(--spacing-md);
+    gap: var(--spacing-sm);
     min-height: 0;
 }
 
@@ -149,8 +148,9 @@ nav {
     align-items: center;
     justify-content: flex-end;
     width: auto;
-    flex: 1 1 auto;
+    flex: 0 1 auto;
     min-width: 0;
+    height: 100%;
 }
 
 nav ul {
@@ -162,20 +162,24 @@ nav ul {
     padding: 0;
     width: auto;
     gap: var(--spacing-lg);
+    height: 100%;
 }
 
 nav ul li {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     min-width: max-content;
+    height: 100%;
 }
 
 /* Brand section with logo and company name */
 .brand {
     display: flex;
     align-items: center;
-    gap: var(--spacing-md);
+    gap: var(--spacing-sm);
     min-width: 0;
+    flex-shrink: 0;
 }
 
 .logo-container {
@@ -207,7 +211,7 @@ nav ul li {
 header h1 {
     margin: 0;
     font-family: 'Playfair Display', serif;
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     font-weight: 600;
     color: var(--accent-gold);
     letter-spacing: 1px;
@@ -223,7 +227,7 @@ nav ul {
     margin: 0;
     padding: 0;
     display: flex;
-    gap: var(--spacing-lg);
+    gap: var(--spacing-sm);
     align-items: center;
 }
 
@@ -231,8 +235,8 @@ nav ul li a {
     text-decoration: none;
     color: var(--white);
     font-weight: 500;
-    font-size: 1rem;
-    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: 0.95rem;
+    padding: 4px 8px;
     border-radius: var(--radius-sm);
     transition: color 0.3s var(--transition), transform 0.3s var(--transition), background-color 0.3s var(--transition);
     position: relative;
@@ -241,6 +245,7 @@ nav ul li a {
     justify-content: center;
     overflow: hidden;
     isolation: isolate;
+    height: 100%;
 }
 
 nav ul li a::before {
