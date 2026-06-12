@@ -608,7 +608,12 @@
                     e.preventDefault();
                     
                     const productCard = button.closest('.product-card');
-                    const productName = productCard.querySelector('h3').textContent;
+                    const h3Element = productCard?.querySelector('h3');
+                    if (!h3Element) {
+                        toast.error('Product information not available');
+                        return;
+                    }
+                    const productName = h3Element.textContent;
                     const productSku = productCard.dataset.productSku;
                     
                     // Show loading state

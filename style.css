@@ -314,8 +314,8 @@ nav ul li a:hover::after {
     cursor: pointer;
     border-radius: 8px;
     padding: 6px;
-    backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
     transition: background 0.22s ease, backdrop-filter 0.28s ease, box-shadow 0.22s ease, transform 0.18s ease;
     box-shadow: 0 2px 8px rgba(0,0,0,0.12);
     position: relative;
@@ -353,8 +353,8 @@ header.nav-open .nav-toggle .hamburger::after { transform: rotate(-45deg) transl
 /* Stronger visual for toggle when nav is open */
 header.nav-open .nav-toggle {
     background: rgba(255,255,255,0.12);
-    backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
     box-shadow: 0 6px 18px rgba(0,0,0,0.2);
     transform: translateY(0);
 }

@@ -258,13 +258,28 @@
                 btnText.style.display = 'none';
                 btnLoading.style.display = 'inline';
 
+                const nameField = contactForm.querySelector('#name');
+                const emailField = contactForm.querySelector('#email');
+                const phoneField = contactForm.querySelector('#phone');
+                const subjectField = contactForm.querySelector('#subject');
+                const messageField = contactForm.querySelector('#message');
+                const newsletterField = contactForm.querySelector('#newsletter');
+
+                if (!nameField || !emailField || !phoneField || !subjectField || !messageField) {
+                    toast.error('Form fields are missing');
+                    submitBtn.disabled = false;
+                    btnText.style.display = 'inline';
+                    btnLoading.style.display = 'none';
+                    return;
+                }
+
                 const contactData = {
-                    name: contactForm.querySelector('#name').value.trim(),
-                    email: contactForm.querySelector('#email').value.trim(),
-                    phone: contactForm.querySelector('#phone').value.trim(),
-                    subject: contactForm.querySelector('#subject').value,
-                    message: contactForm.querySelector('#message').value.trim(),
-                    newsletter: contactForm.querySelector('#newsletter') ? contactForm.querySelector('#newsletter').checked : false,
+                    name: nameField.value.trim(),
+                    email: emailField.value.trim(),
+                    phone: phoneField.value.trim(),
+                    subject: subjectField.value,
+                    message: messageField.value.trim(),
+                    newsletter: newsletterField ? newsletterField.checked : false,
                 };
 
                 try {

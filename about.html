@@ -225,7 +225,8 @@
             const animateCounters = () => {
                 const counters = document.querySelectorAll('.stat-number');
                 counters.forEach(counter => {
-                    const target = parseInt(counter.textContent.replace(/[^\d]/g, ''));
+                    const originalText = counter.textContent.trim();
+                    const target = parseInt(originalText.replace(/[^\d]/g, ''));
                     const duration = 2000; // 2 seconds
                     const increment = target / (duration / 16); // 60fps
                     let current = 0;
@@ -234,16 +235,23 @@
                         current += increment;
                         if (current < target) {
                             const displayValue = Math.floor(current);
-                            if (counter.textContent.includes('K+')) {
+                            if (originalText.includes('K+')) {
                                 counter.textContent = displayValue + 'K+';
-                            } else if (counter.textContent.includes('%')) {
+                            } else if (originalText.includes('%')) {
                                 counter.textContent = displayValue + '%';
                             } else {
                                 counter.textContent = displayValue + '+';
                             }
                             requestAnimationFrame(updateCounter);
                         } else {
-                            counter.textContent = counter.textContent; // Keep original format
+                            // Ensure final value is displayed with correct format
+                            if (originalText.includes('K+')) {
+                                counter.textContent = target + 'K+';
+                            } else if (originalText.includes('%')) {
+                                counter.textContent = target + '%';
+                            } else {
+                                counter.textContent = target + '+';
+                            }
                         }
                     };
                     
