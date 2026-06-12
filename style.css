@@ -37,8 +37,10 @@
 
 html {
     box-sizing: border-box;
-    font-size: 16px;
+    font-size: clamp(14px, 2vw, 18px);
     scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 *, *::before, *::after {
@@ -63,6 +65,13 @@ body {
     background-color: var(--cream);
     overflow-x: hidden;
     animation: fadeIn 0.5s ease-in-out;
+    touch-action: manipulation;
+}
+
+@media (max-width: 480px) {
+    body {
+        font-size: clamp(13px, 3.5vw, 16px);
+    }
 }
 
 /* Page Transition Animations */
@@ -99,7 +108,7 @@ header {
     background: linear-gradient(135deg, var(--primary-navy) 0%, var(--secondary-navy) 100%);
     color: var(--white);
     height: var(--header-height);
-    padding: 0 var(--spacing-lg);
+    padding: 0 clamp(var(--spacing-sm), 2vw, var(--spacing-lg));
     display: flex;
     align-items: center;
     position: fixed;
@@ -111,6 +120,8 @@ header {
     border-bottom: 1px solid rgba(212, 175, 55, 0.2);
     box-shadow: var(--shadow-md);
     transition: all 0.3s var(--transition);
+    overflow: hidden;
+    width: 100vw;
 }
 
 header.header--small {
@@ -120,14 +131,15 @@ header.header--small {
 
 /* Main content spacing (uses dynamic header height when available) */
 main, section {
-    padding-top: calc(var(--header-height-px, var(--header-height)) + var(--spacing-lg));
+    padding-top: calc(var(--header-height-px, var(--header-height)) + clamp(var(--spacing-md), 3vw, var(--spacing-lg)));
 }
 
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 var(--spacing-lg);
+    padding: 0 clamp(var(--spacing-sm), 3vw, var(--spacing-lg));
     box-sizing: border-box;
+    width: 100%;
 }
 
 /* Header layout */
@@ -211,14 +223,15 @@ nav ul li {
 header h1 {
     margin: 0;
     font-family: 'Playfair Display', serif;
-    font-size: 1.5rem;
+    font-size: clamp(1rem, 4vw, 1.5rem);
     font-weight: 600;
     color: var(--accent-gold);
-    letter-spacing: 1px;
+    letter-spacing: clamp(0.5px, 1vw, 1px);
     min-width: 0;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    flex: 0 1 auto;
 }
 
 /* Navigation styling */
@@ -235,8 +248,8 @@ nav ul li a {
     text-decoration: none;
     color: var(--white);
     font-weight: 500;
-    font-size: 0.95rem;
-    padding: 4px 8px;
+    font-size: clamp(0.85rem, 2vw, 0.95rem);
+    padding: clamp(4px, 1vw, 8px) clamp(6px, 2vw, 12px);
     border-radius: var(--radius-sm);
     transition: color 0.3s var(--transition), transform 0.3s var(--transition), background-color 0.3s var(--transition);
     position: relative;
@@ -246,6 +259,8 @@ nav ul li a {
     overflow: hidden;
     isolation: isolate;
     height: 100%;
+    min-height: 44px;
+    min-width: 44px;
 }
 
 nav ul li a::before {
@@ -438,6 +453,7 @@ header.nav-open .nav-toggle::before {
 .hero {
     background: linear-gradient(135deg, rgba(26, 35, 50, 0.8) 0%, rgba(44, 62, 80, 0.9) 100%), 
                 url('images/Marlow-3-Piece-Burgundy-Tuxedo-1.jpg') center/cover no-repeat;
+    background-attachment: fixed;
     min-height: 80vh;
     color: var(--white);
     display: flex;
@@ -795,14 +811,17 @@ header.nav-open .nav-toggle::before {
     }
     
     header {
-        padding: 0 var(--spacing-md);
+        padding: 0 clamp(var(--spacing-sm), 2vw, var(--spacing-md));
+        width: 100vw;
     }
     
     header .container {
         flex-wrap: wrap;
         justify-content: space-between;
-        gap: var(--spacing-md);
+        gap: var(--spacing-sm);
         align-items: center;
+        width: 100%;
+        padding: 0 !important;
     }
     
     nav {
@@ -812,19 +831,21 @@ header.nav-open .nav-toggle::before {
     }
     
     header h1 {
-        font-size: 1.5rem;
+        font-size: clamp(1rem, 3.5vw, 1.5rem);
     }
     
     nav ul {
-        gap: var(--spacing-md);
+        gap: clamp(var(--spacing-sm), 2vw, var(--spacing-md));
         justify-content: center;
         width: 100%;
         flex-wrap: wrap;
+        padding: 0;
     }
     
     nav ul li a {
-        font-size: 0.95rem;
-        padding: 0.8rem 1rem;
+        font-size: clamp(0.8rem, 2vw, 0.95rem);
+        padding: clamp(6px, 1.5vw, 10px) clamp(8px, 2vw, 12px);
+        min-height: 44px;
     }
     
     .hero-text {
@@ -884,28 +905,37 @@ header.nav-open .nav-toggle::before {
 }
 
 @media (max-width: 480px) {
+    :root {
+        --header-height: 65px;
+    }
+    
     header .container {
-        flex-direction: column;
-        gap: var(--spacing-sm);
-        padding: var(--spacing-sm) var(--spacing-md);
+        flex-direction: row;
+        gap: clamp(var(--spacing-xs), 1vw, var(--spacing-sm));
+        padding: 0 !important;
         align-items: center;
+        justify-content: space-between;
+        width: 100%;
     }
     
     .brand {
-        gap: var(--spacing-sm);
-        width: 100%;
-        justify-content: center;
+        gap: clamp(var(--spacing-xs), 1vw, var(--spacing-sm));
+        flex: 0 1 auto;
+        justify-content: flex-start;
     }
     
     .logo-container {
-        width: 40px;
-        height: 40px;
+        width: clamp(36px, 8vw, 40px);
+        height: clamp(36px, 8vw, 40px);
+        flex-shrink: 0;
     }
     
     header h1 {
-        font-size: 1.4rem;
-        text-align: center;
-        width: 100%;
+        font-size: clamp(0.9rem, 3vw, 1.4rem);
+        text-align: left;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
     
     nav {
@@ -917,8 +947,9 @@ header.nav-open .nav-toggle::before {
     nav ul {
         flex-wrap: wrap;
         justify-content: center;
-        gap: var(--spacing-sm);
+        gap: clamp(var(--spacing-xs), 1.5vw, var(--spacing-sm));
         width: 100%;
+        padding: 0;
     }
     
     .hero {
